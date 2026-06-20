@@ -2096,3 +2096,107 @@ body.lang-en .pay-method-btn:hover { transform: translateX(2px); }
   line-height: 1.5;
   margin: 0;
 }
+/* ============================================================
+   PLATFORM CHOICE (WhatsApp / TikTok) — booking chat
+   ============================================================ */
+.chat-options-platform {
+  gap: 0.7rem;
+}
+
+.chat-opt-platform {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.2rem;
+  font-weight: 700;
+}
+
+.chat-opt-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.chat-opt-whatsapp:hover {
+  border-color: #25D366;
+  color: #25D366;
+  background: rgba(37,211,102,0.08);
+  box-shadow: 0 6px 16px rgba(37,211,102,0.18);
+}
+
+.chat-opt-tiktok:hover {
+  border-color: #69C9D0;
+  color: #69C9D0;
+  background: rgba(105,201,208,0.08);
+  box-shadow: 0 6px 16px rgba(105,201,208,0.18);
+}
+
+/* ============================================================
+   TIKTOK PAYMENT MESSAGE BOX (copy + open TikTok)
+   ============================================================ */
+.tiktok-msg-box {
+  text-align: start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  margin: 0.25rem 0 1.25rem;
+  animation: chatMsgIn 0.35s ease-out both;
+}
+
+.tiktok-msg-instructions {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.tiktok-msg-text {
+  width: 100%;
+  min-height: 130px;
+  resize: vertical;
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--gold-light);
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  padding: 0.75rem 0.85rem;
+  margin-bottom: 0.9rem;
+}
+
+.tiktok-msg-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.tiktok-msg-actions .pay-confirm-btn {
+  flex: 1;
+  min-width: 140px;
+  margin-top: 0;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tiktok-copy-btn {
+  background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+  color: var(--cream);
+  border: 1.5px solid var(--border);
+}
+.tiktok-copy-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.tiktok-open-btn {
+  background: linear-gradient(135deg, #69C9D0, #25F4EE);
+  color: #062023;
+}
+.tiktok-open-btn:hover {
+  box-shadow: 0 8px 24px rgba(105,201,208,0.35);
+}

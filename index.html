@@ -1058,7 +1058,7 @@
     <p class="section-eyebrow" data-ar="احجز الآن" data-en="Book Now">احجز الآن</p>
     <h2 data-ar="ابدأ تجربتك الفاخرة اليوم" data-en="Start Your Luxury Experience Today">ابدأ تجربتك الفاخرة اليوم</h2>
     <p data-ar="تواصل معنا عبر واتساب لحجز موعدك في أي وقت. مفتوحون 24 ساعة طوال أيام الأسبوع." data-en="Contact us via WhatsApp to book your appointment anytime. Open 24 hours, 7 days a week.">تواصل معنا عبر واتساب لحجز موعدك في أي وقت. مفتوحون 24 ساعة طوال أيام الأسبوع.</p>
-    <button class="btn-primary btn-large" id="openChatBtn" data-ar="احجز عبر واتساب" data-en="Book via WhatsApp">احجز عبر واتساب</button>
+    <button class="btn-primary btn-large" id="openChatBtn" data-ar="احجز عبر واتساب أو تيك توك" data-en="Book via WhatsApp or TikTok">احجز عبر واتساب أو تيك توك</button>
   </div>
 </section>
 
@@ -1211,13 +1211,6 @@
             <span data-ar="بطاقة مدى" data-en="Mada Debit Card">بطاقة مدى</span>
           </div>
         </button>
-        <button class="pay-method-btn" data-method="cash" type="button">
-          <div class="pay-method-icon">💵</div>
-          <div class="pay-method-info">
-            <strong data-ar="نقداً عند الوصول" data-en="Cash on Arrival">نقداً عند الوصول</strong>
-            <span data-ar="ادفع عند حضورك للصالون" data-en="Pay when you arrive">ادفع عند حضورك للصالون</span>
-          </div>
-        </button>
       </div>
       <p class="pay-required-hint" id="payRequiredHint" style="display:none;" data-ar="⚠ يرجى اختيار طريقة دفع للمتابعة" data-en="⚠ Please select a payment method to continue">⚠ يرجى اختيار طريقة دفع للمتابعة</p>
       <button class="pay-confirm-btn" id="payProceedBtn" type="button" data-ar="متابعة الدفع ←" data-en="Proceed to Payment →">متابعة الدفع ←</button>
@@ -1315,38 +1308,6 @@
       </div>
 
       <button class="pay-confirm-btn" id="digitalWhatsappBtn" type="button" data-ar="✅ أرسل إيصال الدفع عبر واتساب" data-en="✅ Send Payment Receipt via WhatsApp">✅ أرسل إيصال الدفع عبر واتساب</button>
-    </div>
-
-    <!-- Step 2c: Cash on Arrival -->
-    <div class="pay-step" id="payStepCash" style="display:none;">
-      <button class="pay-back-btn" id="payBackCash" type="button">← <span data-ar="رجوع" data-en="Back">رجوع</span></button>
-      <div class="pay-header">
-        <div class="pay-icon">💵</div>
-        <h2 class="pay-title" data-ar="نقداً عند الوصول" data-en="Cash on Arrival">نقداً عند الوصول</h2>
-        <p class="pay-sub" data-ar="سيتم إرسال تأكيد الحجز لصاحب الصالون عبر واتساب" data-en="A booking confirmation will be sent to the owner via WhatsApp">سيتم إرسال تأكيد الحجز لصاحب الصالون عبر واتساب</p>
-      </div>
-      <div class="cash-info-card">
-        <div class="pay-summary-row">
-          <span data-ar="الخدمة" data-en="Service">الخدمة</span>
-          <strong id="cashService">—</strong>
-        </div>
-        <div class="pay-summary-row">
-          <span data-ar="الاسم" data-en="Name">الاسم</span>
-          <strong id="cashName">—</strong>
-        </div>
-        <div class="pay-summary-total">
-          <span data-ar="المبلغ عند الوصول" data-en="Amount on Arrival">المبلغ عند الوصول</span>
-          <strong class="pay-amount" id="cashAmount">— <span data-ar="ريال" data-en="SAR">ريال</span></strong>
-        </div>
-      </div>
-      <div class="pay-instructions">
-        <p data-ar="📌 ملاحظة:" data-en="📌 Note:">📌 ملاحظة:</p>
-        <ol>
-          <li data-ar="سيتلقى صاحب الصالون إشعاراً بموعدك فور الضغط على زر التأكيد" data-en="The owner will receive a notification as soon as you confirm">سيتلقى صاحب الصالون إشعاراً بموعدك فور الضغط على زر التأكيد</li>
-          <li data-ar="يُرجى الالتزام بموعدك أو التواصل للإلغاء قبل ساعتين" data-en="Please arrive on time or cancel at least 2 hours before">يُرجى الالتزام بموعدك أو التواصل للإلغاء قبل ساعتين</li>
-        </ol>
-      </div>
-      <button class="pay-confirm-btn" id="cashConfirmBtn" type="button" data-ar="✅ تأكيد الحجز وإبلاغ الصالون" data-en="✅ Confirm Booking & Notify Salon">✅ تأكيد الحجز وإبلاغ الصالون</button>
     </div>
 
     <!-- Step 3: Success -->

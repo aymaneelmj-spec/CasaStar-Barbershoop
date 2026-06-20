@@ -15,8 +15,8 @@
       audio.play().catch(function() { played = false; }); // allow retry if blocked
     }
     window.addEventListener('load', function() {
-      // short delay so it doesn't clash with loader animation
-      setTimeout(playOnce, 800);
+      // delay so it starts smoothly with the loaded page
+      setTimeout(playOnce, 2500);
     });
     // Fallback: first user interaction unlocks autoplay on mobile
     ['touchstart','click','keydown'].forEach(function(evt) {
@@ -134,7 +134,10 @@
 
   // ───────────────────────────────────────────────────────────
   const PHONE = '966549785075';
+  const TIKTOK_USERNAME = 'casastar1'; // 🔧 change this if the TikTok handle changes
+  const TIKTOK_URL = 'https://www.tiktok.com/@' + TIKTOK_USERNAME;
   let currentLang = 'ar';
+  let selectedPlatform = 'whatsapp'; // 'whatsapp' | 'tiktok'
   let selectedService = null;
   let selectedServiceName = '';
   let selectedServicePrice = '';
@@ -296,12 +299,12 @@
   }
 
   document.getElementById('openChatBtn').addEventListener('click', function () {
-    resetChatToCategories();
+    resetChatToPlatformChoice();
     openChat();
   });
   document.getElementById('bookNowNav').addEventListener('click', function (e) {
     e.preventDefault();
-    resetChatToCategories();
+    resetChatToPlatformChoice();
     openChat();
   });
   const bookNowMobile = document.getElementById('bookNowMobile');
@@ -311,7 +314,7 @@
       hamburger.classList.remove('open');
       mobileMenu.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
-      resetChatToCategories();
+      resetChatToPlatformChoice();
       openChat();
     });
   }
@@ -602,13 +605,51 @@
 
     openChat();
     resetChat();
-    setTimeout(async function () {
+    setTimeout(function () {
       addBotMsg(
-        'مرحباً! لحجز خدمة: ' + serviceAr + ' (' + price + ' ريال). ما هو اسمك؟',
-        'Hi! To book: ' + serviceEn + ' (' + price + ' SAR). What is your name?'
+        'مرحباً! لحجز خدمة: ' + serviceAr + ' (' + price + ' ريال). من خلال أي وسيلة تفضل إتمام حجزك؟',
+        'Hi! To book: ' + serviceEn + ' (' + price + ' SAR). Which platform would you like to use?'
       );
-      await new Promise(r => setTimeout(r, 300));
-      addNameInput();
+
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-options chat-options-platform';
+
+      const waBtn = document.createElement('button');
+      waBtn.className = 'chat-opt chat-opt-platform chat-opt-whatsapp';
+      waBtn.innerHTML = '<span class="chat-opt-icon">💬</span><span>' + (currentLang === 'ar' ? 'واتساب' : 'WhatsApp') + '</span>';
+      waBtn.addEventListener('click', async function () {
+        selectedPlatform = 'whatsapp';
+        addUserMsg(currentLang === 'ar' ? 'واتساب' : 'WhatsApp');
+        wrap.querySelectorAll('button').forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
+        waBtn.style.opacity = '1';
+        const t = addTyping();
+        await delay(700);
+        t.remove();
+        addBotMsg('رائع! ما هو اسمك الكريم؟', 'Great! What is your name?');
+        await delay(300);
+        addNameInput();
+      });
+
+      const ttBtn = document.createElement('button');
+      ttBtn.className = 'chat-opt chat-opt-platform chat-opt-tiktok';
+      ttBtn.innerHTML = '<span class="chat-opt-icon">🎵</span><span>' + (currentLang === 'ar' ? 'تيك توك' : 'TikTok') + '</span>';
+      ttBtn.addEventListener('click', async function () {
+        selectedPlatform = 'tiktok';
+        addUserMsg(currentLang === 'ar' ? 'تيك توك' : 'TikTok');
+        wrap.querySelectorAll('button').forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
+        ttBtn.style.opacity = '1';
+        const t = addTyping();
+        await delay(700);
+        t.remove();
+        addBotMsg('رائع! ما هو اسمك الكريم؟', 'Great! What is your name?');
+        await delay(300);
+        addNameInput();
+      });
+
+      wrap.appendChild(waBtn);
+      wrap.appendChild(ttBtn);
+      chatBody.appendChild(wrap);
+      chatBody.scrollTop = chatBody.scrollHeight;
     }, 200);
   }
 
@@ -643,7 +684,7 @@
     chatBody.appendChild(msg);
   }
 
-  function resetChatToCategories() {
+  function resetChatToPlatformChoice() {
     selectedService = null;
     selectedServiceName = '';
     selectedServicePrice = '';
@@ -653,31 +694,80 @@
     chatBody.innerHTML = '';
 
     addBotMsg(
-      'مرحباً بك في كازا ستار للإسترخاء 👋 اختر نوع الخدمة التي تود حجزها:',
-      "Welcome to Casastar Relaxation 👋 Select the service type you'd like to book:"
+      'أهلاً بك في كازا ستار للإسترخاء 👋 من خلال أي وسيلة تفضل إتمام حجزك؟',
+      "Welcome to Casastar Relaxation 👋 Which platform would you like to use to complete your booking?"
     );
 
-    const categories = [
-      { value: 'massage', ar: '♨ مساج واسترخاء', en: '♨ Massage & Relaxation' },
-      { value: 'hammam', ar: '🌿 حمام مغربي', en: '🌿 Moroccan Hammam' },
-      { value: 'barber', ar: '✂ الحلاقة', en: '✂ Barber' },
-      { value: 'care', ar: '✨ العناية والتجميل', en: '✨ Care & Beauty' }
-    ];
-
     const wrap = document.createElement('div');
-    wrap.className = 'chat-options';
-    categories.forEach(function (cat) {
-      const btn = document.createElement('button');
-      btn.className = 'chat-opt';
-      btn.setAttribute('data-step', 'category');
-      btn.setAttribute('data-value', cat.value);
-      btn.setAttribute('data-ar', cat.ar);
-      btn.setAttribute('data-en', cat.en);
-      btn.textContent = currentLang === 'ar' ? cat.ar : cat.en;
-      wrap.appendChild(btn);
+    wrap.className = 'chat-options chat-options-platform';
+
+    const waBtn = document.createElement('button');
+    waBtn.className = 'chat-opt chat-opt-platform chat-opt-whatsapp';
+    waBtn.innerHTML = '<span class="chat-opt-icon">💬</span><span>' + (currentLang === 'ar' ? 'واتساب' : 'WhatsApp') + '</span>';
+    waBtn.addEventListener('click', function () {
+      selectedPlatform = 'whatsapp';
+      addUserMsg(currentLang === 'ar' ? 'واتساب' : 'WhatsApp');
+      wrap.querySelectorAll('button').forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
+      waBtn.style.opacity = '1';
+      resetChatToCategories();
     });
+
+    const ttBtn = document.createElement('button');
+    ttBtn.className = 'chat-opt chat-opt-platform chat-opt-tiktok';
+    ttBtn.innerHTML = '<span class="chat-opt-icon">🎵</span><span>' + (currentLang === 'ar' ? 'تيك توك' : 'TikTok') + '</span>';
+    ttBtn.addEventListener('click', function () {
+      selectedPlatform = 'tiktok';
+      addUserMsg(currentLang === 'ar' ? 'تيك توك' : 'TikTok');
+      wrap.querySelectorAll('button').forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
+      ttBtn.style.opacity = '1';
+      resetChatToCategories();
+    });
+
+    wrap.appendChild(waBtn);
+    wrap.appendChild(ttBtn);
     chatBody.appendChild(wrap);
     chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function resetChatToCategories() {
+    selectedService = null;
+    selectedServiceName = '';
+    selectedServicePrice = '';
+    selectedDate = '';
+    selectedTime = '';
+    selectedClientName = '';
+
+    const typingCat = addTyping();
+    setTimeout(function () {
+      typingCat.remove();
+
+      addBotMsg(
+        'ممتاز! اختر نوع الخدمة التي تود حجزها:',
+        "Great! Select the service type you'd like to book:"
+      );
+
+      const categories = [
+        { value: 'massage', ar: '♨ مساج واسترخاء', en: '♨ Massage & Relaxation' },
+        { value: 'hammam', ar: '🌿 حمام مغربي', en: '🌿 Moroccan Hammam' },
+        { value: 'barber', ar: '✂ الحلاقة', en: '✂ Barber' },
+        { value: 'care', ar: '✨ العناية والتجميل', en: '✨ Care & Beauty' }
+      ];
+
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-options';
+      categories.forEach(function (cat) {
+        const btn = document.createElement('button');
+        btn.className = 'chat-opt';
+        btn.setAttribute('data-step', 'category');
+        btn.setAttribute('data-value', cat.value);
+        btn.setAttribute('data-ar', cat.ar);
+        btn.setAttribute('data-en', cat.en);
+        btn.textContent = currentLang === 'ar' ? cat.ar : cat.en;
+        wrap.appendChild(btn);
+      });
+      chatBody.appendChild(wrap);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, 700);
   }
 
   const galleryGrid = document.getElementById('galleryGrid');
@@ -835,18 +925,19 @@
   var payStep1      = document.getElementById('payStep1');
   var payStepBank   = document.getElementById('payStepBank');
   var payStepDigital= document.getElementById('payStepDigital');
-  var payStepCash   = document.getElementById('payStepCash');
   var payStepSuccess= document.getElementById('payStepSuccess');
   var selectedPayMethod = null;
 
   function openPaymentModal() {
     if (!paymentOverlay) return;
     // Reset to step 1
-    [payStep1, payStepBank, payStepDigital, payStepCash, payStepSuccess].forEach(function(s){ if(s) s.style.display='none'; });
+    [payStep1, payStepBank, payStepDigital, payStepSuccess].forEach(function(s){ if(s) s.style.display='none'; });
     if(payStep1) payStep1.style.display='block';
     selectedPayMethod = null;
     document.querySelectorAll('.pay-method-btn').forEach(function(b){ b.classList.remove('selected'); });
     if(document.getElementById('payRequiredHint')) document.getElementById('payRequiredHint').style.display='none';
+    var oldTtBox = document.getElementById('tiktokMsgBox');
+    if (oldTtBox) oldTtBox.remove();
 
     // Fill summary
     var svcName = selectedService ? (currentLang === 'ar' ? selectedService.ar : selectedService.en) : selectedServiceName;
@@ -858,9 +949,6 @@
     setText('summaryDateTime', dateTime);
     setAmountText('summaryAmount', price);
     setAmountText('bankAmount', price);
-    setAmountText('cashAmount', price);
-    setText('cashService', svcName);
-    setText('cashName', selectedClientName || '—');
     if(document.getElementById('ibanValue')) document.getElementById('ibanValue').textContent = OWNER_IBAN;
     setAmountText('digitalAmount', price);
 
@@ -911,8 +999,6 @@
     if(selectedPayMethod === 'bank') {
       if(document.getElementById('ibanValue')) document.getElementById('ibanValue').textContent = OWNER_IBAN;
       payStepBank.style.display = 'block';
-    } else if(selectedPayMethod === 'cash') {
-      payStepCash.style.display = 'block';
     } else {
       var icon  = document.getElementById('digitalMethodIcon');
       var title = document.getElementById('digitalMethodTitle');
@@ -935,10 +1021,10 @@
   });
 
   // Back buttons
-  ['payBackBank','payBackDigital','payBackCash'].forEach(function(id) {
+  ['payBackBank','payBackDigital'].forEach(function(id) {
     var el = document.getElementById(id);
     if(el) el.addEventListener('click', function() {
-      [payStepBank, payStepDigital, payStepCash].forEach(function(s){ if(s) s.style.display='none'; });
+      [payStepBank, payStepDigital].forEach(function(s){ if(s) s.style.display='none'; });
       payStep1.style.display = 'block';
     });
   });
@@ -985,12 +1071,6 @@
     sendPaymentWhatsapp('digital');
   });
 
-  // Confirm cash
-  var cashConfirmBtn = document.getElementById('cashConfirmBtn');
-  if(cashConfirmBtn) cashConfirmBtn.addEventListener('click', function() {
-    sendPaymentWhatsapp('cash');
-  });
-
   // Done button
   var payDoneBtn = document.getElementById('payDoneBtn');
   if(payDoneBtn) payDoneBtn.addEventListener('click', closePaymentModal);
@@ -1005,12 +1085,8 @@
 
     if(currentLang === 'ar') {
       var methodLabel = methodKey === 'bank' ? '🏦 تحويل بنكي — البنك الأهلي' :
-                        methodKey === 'cash' ? '💵 نقداً عند الوصول' :
                         methodKey === 'stc'  ? '📱 STC Pay' :
                         methodKey === 'mada' ? '💳 مدى / Mada' : '💳 بطاقة';
-      var receiptLine = (methodKey === 'bank' || methodKey === 'stc' || methodKey === 'mada')
-        ? '📎 سيتم إرفاق صورة الإيصال\n'
-        : '🙏 أرجو تأكيد الحجز، شكراً لكم\n';
       return '✨ *كازا ستار للإسترخاء* 💈\n' +
         '_تأكيد حجز وإشعار دفع_\n' +
         '━━━━━━━━━━━━━━━━━━━━\n' +
@@ -1022,15 +1098,11 @@
         (methodKey === 'bank' ? '🔢 *IBAN المُحوَّل إليه:* ' + OWNER_IBAN + '\n' : '') +
         (methodKey === 'stc' || methodKey === 'mada' ? '📱 *رقم التحويل:* +966549785075\n' : '') +
         '━━━━━━━━━━━━━━━━━━━━\n' +
-        receiptLine;
+        '📎 سيتم إرفاق صورة الإيصال\n';
     } else {
       var mLabel = methodKey === 'bank' ? '🏦 Bank Transfer — Al Ahli' :
-                   methodKey === 'cash' ? '💵 Cash on Arrival' :
                    methodKey === 'stc'  ? '📱 STC Pay' :
                    methodKey === 'mada' ? '💳 Mada Card' : '💳 Card';
-      var rLine = (methodKey === 'bank' || methodKey === 'stc' || methodKey === 'mada')
-        ? '📎 Receipt screenshot will be attached\n'
-        : '🙏 Please confirm the appointment, thank you\n';
       return '✨ *Casastar Relaxation* 💈\n' +
         '_Booking & Payment Notification_\n' +
         '━━━━━━━━━━━━━━━━━━━━\n' +
@@ -1042,16 +1114,92 @@
         (methodKey === 'bank' ? '🔢 *IBAN Used:* ' + OWNER_IBAN + '\n' : '') +
         (methodKey === 'stc' || methodKey === 'mada' ? '📱 *Transfer Number:* +966549785075\n' : '') +
         '━━━━━━━━━━━━━━━━━━━━\n' +
-        rLine;
+        '📎 Receipt screenshot will be attached\n';
     }
   }
 
   function sendPaymentWhatsapp(method) {
+    if (selectedPlatform === 'tiktok') {
+      sendPaymentTikTok(method);
+      return;
+    }
     var msg = buildPaymentWhatsappMsg(method);
     var url = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg);
     setTimeout(function() { window.open(url, '_blank', 'noopener,noreferrer'); }, 300);
-    [payStepBank, payStepDigital, payStepCash].forEach(function(s){ if(s) s.style.display='none'; });
+    [payStepBank, payStepDigital].forEach(function(s){ if(s) s.style.display='none'; });
     if(payStepSuccess) payStepSuccess.style.display = 'block';
+  }
+
+  function sendPaymentTikTok(method) {
+    var msg = buildPaymentWhatsappMsg(method);
+    [payStepBank, payStepDigital].forEach(function(s){ if(s) s.style.display='none'; });
+    showTikTokMessageBox(msg);
+  }
+
+  function showTikTokMessageBox(msg) {
+    if(!payStepSuccess) return;
+    payStepSuccess.style.display = 'block';
+
+    var existing = document.getElementById('tiktokMsgBox');
+    if (existing) existing.remove();
+
+    var box = document.createElement('div');
+    box.id = 'tiktokMsgBox';
+    box.className = 'tiktok-msg-box';
+    box.innerHTML =
+      '<p class="tiktok-msg-instructions">' +
+        (currentLang === 'ar'
+          ? '📋 انسخ الرسالة التالية وأرسلها لنا عبر تيك توك لتأكيد حجزك وإرفاق صورة الإيصال:'
+          : '📋 Copy the message below and send it to us on TikTok to confirm your booking and attach your receipt screenshot:') +
+      '</p>' +
+      '<textarea id="tiktokMsgText" class="tiktok-msg-text" readonly dir="auto"></textarea>' +
+      '<div class="tiktok-msg-actions">' +
+        '<button type="button" class="pay-confirm-btn tiktok-copy-btn" id="tiktokCopyBtn">' +
+          (currentLang === 'ar' ? '📋 نسخ الرسالة' : '📋 Copy Message') +
+        '</button>' +
+        '<a href="' + TIKTOK_URL + '" target="_blank" rel="noopener noreferrer" class="pay-confirm-btn tiktok-open-btn" id="tiktokOpenBtn">' +
+          (currentLang === 'ar' ? '🎵 فتح تيك توك' : '🎵 Open TikTok') +
+        '</a>' +
+      '</div>';
+
+    var successBlock = payStepSuccess.querySelector('.pay-success');
+    var doneBtn = document.getElementById('payDoneBtn');
+    if (successBlock && doneBtn) {
+      successBlock.insertBefore(box, doneBtn);
+    } else if (successBlock) {
+      successBlock.appendChild(box);
+    } else {
+      payStepSuccess.appendChild(box);
+    }
+
+    var textarea = document.getElementById('tiktokMsgText');
+    if (textarea) textarea.value = msg;
+
+    var copyBtn = document.getElementById('tiktokCopyBtn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function() {
+        if (navigator.clipboard && textarea) {
+          navigator.clipboard.writeText(textarea.value).then(function() {
+            copyBtn.textContent = currentLang === 'ar' ? '✅ تم النسخ' : '✅ Copied';
+            setTimeout(function() {
+              copyBtn.textContent = currentLang === 'ar' ? '📋 نسخ الرسالة' : '📋 Copy Message';
+            }, 2000);
+          });
+        } else if (textarea) {
+          textarea.select();
+          document.execCommand('copy');
+        }
+      });
+    }
+
+    var openBtn = document.getElementById('tiktokOpenBtn');
+    if (openBtn) {
+      openBtn.addEventListener('click', function() {
+        if (textarea && navigator.clipboard) {
+          navigator.clipboard.writeText(textarea.value).catch(function(){});
+        }
+      });
+    }
   }
 
   // ============================================================
