@@ -1,7 +1,138 @@
 (function () {
   'use strict';
 
-  const PHONE = '966549785075';
+  // ── AUDIO: play once on tab load ──────────────────────────
+  (function initAudio() {
+    var audio = document.getElementById('casastarAudio');
+    if (!audio) return;
+    // Browsers block autoplay without user interaction; we try on load,
+    // then fall back to first user gesture (touch/click) — plays only 1 time.
+    var played = false;
+    function playOnce() {
+      if (played) return;
+      played = true;
+      audio.volume = 0.55;
+      audio.play().catch(function() { played = false; }); // allow retry if blocked
+    }
+    window.addEventListener('load', function() {
+      // short delay so it doesn't clash with loader animation
+      setTimeout(playOnce, 800);
+    });
+    // Fallback: first user interaction unlocks autoplay on mobile
+    ['touchstart','click','keydown'].forEach(function(evt) {
+      document.addEventListener(evt, playOnce, { once: true, passive: true });
+    });
+  })();
+
+  // ── MOBILE FLYING SCISSORS (continuous, JS-driven) ────────
+  (function mobileScissors() {
+    var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth <= 900;
+    if (!isMobile) return; // desktop already has CSS animation on loader
+
+    var loader = document.getElementById('loader');
+    if (!loader) return;
+
+    var SCISSOR_SVG = function(color, size) {
+      return '<svg viewBox="0 0 120 120" width="' + size + '" height="' + size + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed;pointer-events:none;z-index:9998;will-change:transform,opacity;filter:drop-shadow(0 0 10px ' + color + '88);">' +
+        '<g><circle cx="35" cy="35" r="12" fill="none" stroke="' + color + '" stroke-width="4"/>' +
+        '<line x1="43" y1="43" x2="90" y2="90" stroke="' + color + '" stroke-width="5" stroke-linecap="round"/>' +
+        '<line x1="47" y1="38" x2="95" y2="75" stroke="' + color + '" stroke-width="3" stroke-linecap="round"/>' +
+        '<circle cx="85" cy="35" r="12" fill="none" stroke="' + color + '" stroke-width="4"/>' +
+        '<line x1="77" y1="43" x2="30" y2="90" stroke="' + color + '" stroke-width="5" stroke-linecap="round"/>' +
+        '<line x1="73" y1="38" x2="25" y2="75" stroke="' + color + '" stroke-width="3" stroke-linecap="round"/>' +
+        '<circle cx="60" cy="60" r="5" fill="' + color + '"/></g></svg>';
+    };
+
+    var colors = ['#C9A84C','#E8C96A','#F5D376','#C9A84C','#8B6914','#E8C96A'];
+    var sizes  = [44, 36, 52, 40, 34, 48];
+
+    function launchScissor(index) {
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:0;height:0;pointer-events:none;z-index:9998;';
+      wrap.innerHTML = SCISSOR_SVG(colors[index % colors.length], sizes[index % sizes.length]);
+      document.body.appendChild(wrap);
+
+      var el = wrap.querySelector('svg');
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+
+      // Random start from one of 4 sides
+      var side = Math.floor(Math.random() * 4);
+      var startX, startY, endX, endY;
+      if (side === 0) { startX = Math.random() * vw; startY = -60; }
+      else if (side === 1) { startX = vw + 60; startY = Math.random() * vh; }
+      else if (side === 2) { startX = Math.random() * vw; startY = vh + 60; }
+      else { startX = -60; startY = Math.random() * vh; }
+
+      // Head toward center ± randomness
+      endX = vw * 0.3 + Math.random() * vw * 0.4;
+      endY = vh * 0.2 + Math.random() * vh * 0.6;
+
+      var rotate = Math.random() * 360;
+      var dur = 900 + Math.random() * 600; // ms in flight
+
+      el.style.top = startY + 'px';
+      el.style.left = startX + 'px';
+      el.style.opacity = '0';
+      el.style.transform = 'rotate(' + rotate + 'deg) scale(0.3)';
+      el.style.transition = 'none';
+
+      // Trigger animation via rAF
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          el.style.transition =
+            'top ' + dur + 'ms cubic-bezier(0.16,1,0.3,1),' +
+            'left ' + dur + 'ms cubic-bezier(0.16,1,0.3,1),' +
+            'opacity 300ms ease,' +
+            'transform ' + dur + 'ms cubic-bezier(0.16,1,0.3,1)';
+          el.style.top = endY + 'px';
+          el.style.left = endX + 'px';
+          el.style.opacity = '1';
+          el.style.transform = 'rotate(' + (rotate + 180) + 'deg) scale(1)';
+
+          // Fade out before removing
+          setTimeout(function() {
+            el.style.opacity = '0';
+            el.style.transform = 'rotate(' + (rotate + 300) + 'deg) scale(0.2)';
+            setTimeout(function() { if(wrap.parentNode) wrap.parentNode.removeChild(wrap); }, 400);
+          }, dur - 200);
+        });
+      });
+    }
+
+    // Staggered launch: fire 6 scissors with slight delays, then repeat while loader visible
+    var loaderHidden = false;
+    var scissorTimer;
+
+    function scheduleBatch() {
+      if (loaderHidden) return;
+      for (var i = 0; i < 6; i++) {
+        (function(idx) {
+          setTimeout(function() {
+            if (!loaderHidden) launchScissor(idx);
+          }, idx * 160);
+        })(i);
+      }
+      scissorTimer = setTimeout(scheduleBatch, 1800);
+    }
+
+    // Watch for loader hiding
+    var loaderEl = document.getElementById('loader');
+    if (loaderEl) {
+      var obs = new MutationObserver(function() {
+        if (loaderEl.classList.contains('hidden')) {
+          loaderHidden = true;
+          clearTimeout(scissorTimer);
+          obs.disconnect();
+        }
+      });
+      obs.observe(loaderEl, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    scheduleBatch();
+  })();
+
+  // ───────────────────────────────────────────────────────────
   let currentLang = 'ar';
   let selectedService = null;
   let selectedServiceName = '';
@@ -417,12 +548,13 @@
       t4.remove();
 
       addBotMsg(
-        'تم! جاري إرسال طلب الحجز الكامل إلى واتساب...',
-        'Done! Sending your complete booking request to WhatsApp...'
+        'تم! اختر طريقة الدفع لإتمام حجزك...',
+        'Done! Choose a payment method to complete your booking...'
       );
 
       await delay(700);
-      sendBookingToWhatsapp();
+      closeChat();
+      openPaymentModal();
     }
 
     send.addEventListener('click', submitDateTime);
@@ -691,7 +823,241 @@
   applyLang();
   setWhatsappGreeting();
 
-  (function devtoolsGuard() {
+  // ============================================================
+  // PAYMENT MODAL
+  // ============================================================
+  // 🔧 IBAN CONFIG — replace the value below when you receive the IBAN
+  var OWNER_IBAN = 'SA00 0000 0000 0000 0000 0000'; // <-- REPLACE WITH REAL IBAN
+
+  var paymentOverlay = document.getElementById('paymentOverlay');
+  var paymentClose  = document.getElementById('paymentClose');
+  var payStep1      = document.getElementById('payStep1');
+  var payStepBank   = document.getElementById('payStepBank');
+  var payStepDigital= document.getElementById('payStepDigital');
+  var payStepCash   = document.getElementById('payStepCash');
+  var payStepSuccess= document.getElementById('payStepSuccess');
+  var selectedPayMethod = null;
+
+  function openPaymentModal() {
+    if (!paymentOverlay) return;
+    // Reset to step 1
+    [payStep1, payStepBank, payStepDigital, payStepCash, payStepSuccess].forEach(function(s){ if(s) s.style.display='none'; });
+    if(payStep1) payStep1.style.display='block';
+    selectedPayMethod = null;
+    document.querySelectorAll('.pay-method-btn').forEach(function(b){ b.classList.remove('selected'); });
+    if(document.getElementById('payRequiredHint')) document.getElementById('payRequiredHint').style.display='none';
+
+    // Fill summary
+    var svcName = selectedService ? (currentLang === 'ar' ? selectedService.ar : selectedService.en) : selectedServiceName;
+    var price   = selectedServicePrice || '—';
+    var dateTime = (selectedDate && selectedTime) ? (selectedDate + ' — ' + selectedTime) : '—';
+
+    setText('summaryService', svcName);
+    setText('summaryName', selectedClientName || '—');
+    setText('summaryDateTime', dateTime);
+    setAmountText('summaryAmount', price);
+    setAmountText('bankAmount', price);
+    setAmountText('cashAmount', price);
+    setText('cashService', svcName);
+    setText('cashName', selectedClientName || '—');
+    if(document.getElementById('ibanValue')) document.getElementById('ibanValue').textContent = OWNER_IBAN;
+    setAmountText('digitalAmount', price);
+
+    paymentOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePaymentModal() {
+    if(!paymentOverlay) return;
+    paymentOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function setText(id, val) {
+    var el = document.getElementById(id);
+    if(el) el.textContent = val;
+  }
+
+  function setAmountText(id, price) {
+    var el = document.getElementById(id);
+    if(!el) return;
+    var sarLabel = currentLang === 'ar' ? 'ريال' : 'SAR';
+    el.innerHTML = '<span style="font-size:1.4em;color:var(--gold-light);">' + price + '</span> <span style="font-size:0.8em;opacity:0.7;">' + sarLabel + '</span>';
+  }
+
+  if(paymentClose) paymentClose.addEventListener('click', closePaymentModal);
+  if(paymentOverlay) paymentOverlay.addEventListener('click', function(e){ if(e.target===paymentOverlay) closePaymentModal(); });
+
+  // Method selection
+  document.querySelectorAll('.pay-method-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.pay-method-btn').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      selectedPayMethod = btn.getAttribute('data-method');
+      if(document.getElementById('payRequiredHint')) document.getElementById('payRequiredHint').style.display='none';
+    });
+  });
+
+  // Proceed button
+  var payProceedBtn = document.getElementById('payProceedBtn');
+  if(payProceedBtn) payProceedBtn.addEventListener('click', function() {
+    if(!selectedPayMethod) {
+      var hint = document.getElementById('payRequiredHint');
+      if(hint) { hint.style.display='block'; hint.style.animation='none'; void hint.offsetWidth; hint.style.animation=''; }
+      return;
+    }
+    payStep1.style.display = 'none';
+    if(selectedPayMethod === 'bank') {
+      if(document.getElementById('ibanValue')) document.getElementById('ibanValue').textContent = OWNER_IBAN;
+      payStepBank.style.display = 'block';
+    } else if(selectedPayMethod === 'cash') {
+      payStepCash.style.display = 'block';
+    } else {
+      var icon  = document.getElementById('digitalMethodIcon');
+      var title = document.getElementById('digitalMethodTitle');
+      var sub   = document.getElementById('digitalMethodSub');
+      var step1 = document.getElementById('digitalStep1Ar');
+      if(selectedPayMethod === 'stc') {
+        if(icon)  icon.textContent  = '📱';
+        if(title) title.textContent = 'STC Pay';
+        if(sub)   { sub.setAttribute('data-ar','تحويل سريع عبر STC Pay'); sub.setAttribute('data-en','Fast transfer via STC Pay'); sub.textContent = currentLang==='ar'?'تحويل سريع عبر STC Pay':'Fast transfer via STC Pay'; }
+        if(step1) step1.textContent = currentLang==='ar'?'افتح تطبيق STC Pay على جوالك':'Open the STC Pay app on your phone';
+      }
+      if(selectedPayMethod === 'mada') {
+        if(icon)  icon.textContent  = '💳';
+        if(title) title.textContent = 'مدى / Mada';
+        if(sub)   { sub.setAttribute('data-ar','دفع مباشر عبر بطاقة مدى'); sub.setAttribute('data-en','Pay via Mada debit card'); sub.textContent = currentLang==='ar'?'دفع مباشر عبر بطاقة مدى':'Pay via Mada debit card'; }
+        if(step1) step1.textContent = currentLang==='ar'?'افتح تطبيق مصرفك وادخل خدمة التحويل':'Open your bank app and go to Transfer';
+      }
+      payStepDigital.style.display = 'block';
+    }
+  });
+
+  // Back buttons
+  ['payBackBank','payBackDigital','payBackCash'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if(el) el.addEventListener('click', function() {
+      [payStepBank, payStepDigital, payStepCash].forEach(function(s){ if(s) s.style.display='none'; });
+      payStep1.style.display = 'block';
+    });
+  });
+
+  // Copy IBAN
+  var copyIbanBtn = document.getElementById('copyIban');
+  if(copyIbanBtn) copyIbanBtn.addEventListener('click', function() {
+    var ibanEl = document.getElementById('ibanValue');
+    if(!ibanEl) return;
+    var ibanText = ibanEl.textContent.replace(/\s/g,'');
+    if(navigator.clipboard) {
+      navigator.clipboard.writeText(ibanText).then(function() {
+        copyIbanBtn.innerHTML = '✅';
+        setTimeout(function() {
+          copyIbanBtn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        }, 2000);
+      });
+    }
+  });
+
+  // Copy mobile number (STC/Mada)
+  var copyMobileBtn = document.getElementById('copyMobile');
+  if(copyMobileBtn) copyMobileBtn.addEventListener('click', function() {
+    var num = '+966549785075';
+    if(navigator.clipboard) {
+      navigator.clipboard.writeText(num).then(function() {
+        copyMobileBtn.innerHTML = '✅';
+        setTimeout(function() {
+          copyMobileBtn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        }, 2000);
+      });
+    }
+  });
+
+  // WhatsApp send for bank transfer
+  var bankWaBtn = document.getElementById('bankWhatsappBtn');
+  if(bankWaBtn) bankWaBtn.addEventListener('click', function() {
+    sendPaymentWhatsapp('bank');
+  });
+
+  // WhatsApp send for digital (placeholder)
+  var digitalWaBtn = document.getElementById('digitalWhatsappBtn');
+  if(digitalWaBtn) digitalWaBtn.addEventListener('click', function() {
+    sendPaymentWhatsapp('digital');
+  });
+
+  // Confirm cash
+  var cashConfirmBtn = document.getElementById('cashConfirmBtn');
+  if(cashConfirmBtn) cashConfirmBtn.addEventListener('click', function() {
+    sendPaymentWhatsapp('cash');
+  });
+
+  // Done button
+  var payDoneBtn = document.getElementById('payDoneBtn');
+  if(payDoneBtn) payDoneBtn.addEventListener('click', closePaymentModal);
+
+  function buildPaymentWhatsappMsg(method) {
+    var svcAr   = selectedService ? selectedService.ar : selectedServiceName;
+    var svcEn   = selectedService ? selectedService.en : selectedServiceName;
+    var price   = selectedServicePrice || '—';
+    var name    = selectedClientName || '—';
+    var dt      = (selectedDate && selectedTime) ? (selectedDate + ' — ' + selectedTime) : '—';
+    var methodKey = selectedPayMethod || method;
+
+    if(currentLang === 'ar') {
+      var methodLabel = methodKey === 'bank' ? '🏦 تحويل بنكي — البنك الأهلي' :
+                        methodKey === 'cash' ? '💵 نقداً عند الوصول' :
+                        methodKey === 'stc'  ? '📱 STC Pay' :
+                        methodKey === 'mada' ? '💳 مدى / Mada' : '💳 بطاقة';
+      var receiptLine = (methodKey === 'bank' || methodKey === 'stc' || methodKey === 'mada')
+        ? '📎 سيتم إرفاق صورة الإيصال\n'
+        : '🙏 أرجو تأكيد الحجز، شكراً لكم\n';
+      return '✨ *كازا ستار للإسترخاء* 💈\n' +
+        '_تأكيد حجز وإشعار دفع_\n' +
+        '━━━━━━━━━━━━━━━━━━━━\n' +
+        '👤 *الاسم:* ' + name + '\n' +
+        '✂ *الخدمة:* ' + svcAr + '\n' +
+        '💰 *المبلغ:* ' + price + ' ريال\n' +
+        '📅 *الموعد:* ' + dt + '\n' +
+        '💳 *طريقة الدفع:* ' + methodLabel + '\n' +
+        (methodKey === 'bank' ? '🔢 *IBAN المُحوَّل إليه:* ' + OWNER_IBAN + '\n' : '') +
+        (methodKey === 'stc' || methodKey === 'mada' ? '📱 *رقم التحويل:* +966549785075\n' : '') +
+        '━━━━━━━━━━━━━━━━━━━━\n' +
+        receiptLine;
+    } else {
+      var mLabel = methodKey === 'bank' ? '🏦 Bank Transfer — Al Ahli' :
+                   methodKey === 'cash' ? '💵 Cash on Arrival' :
+                   methodKey === 'stc'  ? '📱 STC Pay' :
+                   methodKey === 'mada' ? '💳 Mada Card' : '💳 Card';
+      var rLine = (methodKey === 'bank' || methodKey === 'stc' || methodKey === 'mada')
+        ? '📎 Receipt screenshot will be attached\n'
+        : '🙏 Please confirm the appointment, thank you\n';
+      return '✨ *Casastar Relaxation* 💈\n' +
+        '_Booking & Payment Notification_\n' +
+        '━━━━━━━━━━━━━━━━━━━━\n' +
+        '👤 *Name:* ' + name + '\n' +
+        '✂ *Service:* ' + svcEn + '\n' +
+        '💰 *Amount:* ' + price + ' SAR\n' +
+        '📅 *Appointment:* ' + dt + '\n' +
+        '💳 *Payment Method:* ' + mLabel + '\n' +
+        (methodKey === 'bank' ? '🔢 *IBAN Used:* ' + OWNER_IBAN + '\n' : '') +
+        (methodKey === 'stc' || methodKey === 'mada' ? '📱 *Transfer Number:* +966549785075\n' : '') +
+        '━━━━━━━━━━━━━━━━━━━━\n' +
+        rLine;
+    }
+  }
+
+  function sendPaymentWhatsapp(method) {
+    var msg = buildPaymentWhatsappMsg(method);
+    var url = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg);
+    setTimeout(function() { window.open(url, '_blank', 'noopener,noreferrer'); }, 300);
+    [payStepBank, payStepDigital, payStepCash].forEach(function(s){ if(s) s.style.display='none'; });
+    if(payStepSuccess) payStepSuccess.style.display = 'block';
+  }
+
+  // ============================================================
+  // END PAYMENT MODAL
+  // ============================================================
+
+
     const consoleStyle1 = 'color:#C9A84C;font-size:20px;font-weight:900;font-family:sans-serif;padding:6px 0;';
     const consoleStyle2 = 'color:#888;font-size:13px;font-family:sans-serif;';
     console.log('%c✨ Casastar Relaxation ✨', consoleStyle1);

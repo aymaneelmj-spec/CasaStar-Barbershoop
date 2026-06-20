@@ -60,7 +60,7 @@
     },
     "hasMap": "https://www.google.com/maps/place/Casastar+barber+shop/@24.4521325,39.6447169,15z",
     "image": "https://casastarbarber.com/images/mainbackground.jpg",
-    "sameAs": [],
+    "sameAs": ["https://www.tiktok.com/@casastar1"],
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
@@ -109,7 +109,7 @@
   <link rel="preload" as="image" href="images/mainbackground.jpg" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; connect-src 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none';">
   <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -118,6 +118,9 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<!-- ===== CASASTAR AUDIO — plays once on load ===== -->
+<audio id="casastarAudio" src="audio/casastartaudio.wav" preload="auto" aria-hidden="true"></audio>
 
 <div id="loader">
   <div class="loader-inner">
@@ -1107,6 +1110,16 @@
       <a href="#reviews" data-ar="التقييمات" data-en="Reviews">التقييمات</a>
       <a href="https://wa.me/966549785075" id="footerContactLink" target="_blank" rel="noopener noreferrer" data-ar="التواصل" data-en="Contact">التواصل</a>
     </div>
+    <div class="footer-socials">
+      <a href="https://www.tiktok.com/@casastar1?_r=1&_t=ZS-97NHnXiU8lY" target="_blank" rel="noopener noreferrer" class="social-btn tiktok-btn" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.95a8.16 8.16 0 0 0 4.77 1.52V7.02a4.85 4.85 0 0 1-1-.33z"/></svg>
+        <span>TikTok</span>
+      </a>
+      <a href="https://wa.me/966549785075" class="social-btn whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <span data-ar="واتساب" data-en="WhatsApp">واتساب</span>
+      </a>
+    </div>
     <p class="footer-copy">© 2025 كازا ستار للإسترخاء. جميع الحقوق محفوظة.</p>
   </div>
 </footer>
@@ -1142,6 +1155,213 @@
     </div>
   </div>
 </div>
+
+<!-- ===== PAYMENT MODAL ===== -->
+<div class="payment-overlay" id="paymentOverlay" role="dialog" aria-modal="true" aria-label="الدفع الإلكتروني">
+  <div class="payment-modal" id="paymentModal">
+    <button class="payment-close" id="paymentClose" aria-label="إغلاق">✕</button>
+
+    <!-- Step 1: Summary + method pick -->
+    <div class="pay-step" id="payStep1">
+      <div class="pay-header">
+        <div class="pay-icon">💳</div>
+        <h2 class="pay-title" data-ar="إتمام الدفع" data-en="Complete Payment">إتمام الدفع</h2>
+        <p class="pay-sub" data-ar="اختر طريقة الدفع للمتابعة" data-en="Choose a payment method to proceed">اختر طريقة الدفع للمتابعة</p>
+      </div>
+
+      <div class="pay-summary" id="paySummary">
+        <div class="pay-summary-row">
+          <span data-ar="الخدمة" data-en="Service">الخدمة</span>
+          <strong id="summaryService">—</strong>
+        </div>
+        <div class="pay-summary-row">
+          <span data-ar="الاسم" data-en="Name">الاسم</span>
+          <strong id="summaryName">—</strong>
+        </div>
+        <div class="pay-summary-row">
+          <span data-ar="التاريخ والوقت" data-en="Date & Time">التاريخ والوقت</span>
+          <strong id="summaryDateTime">—</strong>
+        </div>
+        <div class="pay-summary-total">
+          <span data-ar="المبلغ الإجمالي" data-en="Total Amount">المبلغ الإجمالي</span>
+          <strong class="pay-amount" id="summaryAmount">— <span data-ar="ريال" data-en="SAR">ريال</span></strong>
+        </div>
+      </div>
+
+      <p class="pay-method-label" data-ar="🏦 اختر طريقة الدفع — مطلوب" data-en="🏦 Choose Payment Method — Required">🏦 اختر طريقة الدفع — مطلوب</p>
+      <div class="pay-methods">
+        <button class="pay-method-btn" data-method="bank" type="button">
+          <div class="pay-method-icon">🏦</div>
+          <div class="pay-method-info">
+            <strong data-ar="تحويل بنكي" data-en="Bank Transfer">تحويل بنكي</strong>
+            <span data-ar="البنك الأهلي السعودي" data-en="Saudi National Bank">البنك الأهلي السعودي</span>
+          </div>
+        </button>
+        <button class="pay-method-btn" data-method="stc" type="button">
+          <div class="pay-method-icon">📱</div>
+          <div class="pay-method-info">
+            <strong>STC Pay</strong>
+            <span data-ar="الدفع عبر STC Pay" data-en="Pay via STC Pay">الدفع عبر STC Pay</span>
+          </div>
+        </button>
+        <button class="pay-method-btn" data-method="mada" type="button">
+          <div class="pay-method-icon">💳</div>
+          <div class="pay-method-info">
+            <strong>مدى / Mada</strong>
+            <span data-ar="بطاقة مدى" data-en="Mada Debit Card">بطاقة مدى</span>
+          </div>
+        </button>
+        <button class="pay-method-btn" data-method="cash" type="button">
+          <div class="pay-method-icon">💵</div>
+          <div class="pay-method-info">
+            <strong data-ar="نقداً عند الوصول" data-en="Cash on Arrival">نقداً عند الوصول</strong>
+            <span data-ar="ادفع عند حضورك للصالون" data-en="Pay when you arrive">ادفع عند حضورك للصالون</span>
+          </div>
+        </button>
+      </div>
+      <p class="pay-required-hint" id="payRequiredHint" style="display:none;" data-ar="⚠ يرجى اختيار طريقة دفع للمتابعة" data-en="⚠ Please select a payment method to continue">⚠ يرجى اختيار طريقة دفع للمتابعة</p>
+      <button class="pay-confirm-btn" id="payProceedBtn" type="button" data-ar="متابعة الدفع ←" data-en="Proceed to Payment →">متابعة الدفع ←</button>
+    </div>
+
+    <!-- Step 2a: Bank Transfer -->
+    <div class="pay-step" id="payStepBank" style="display:none;">
+      <button class="pay-back-btn" id="payBackBank" type="button">← <span data-ar="رجوع" data-en="Back">رجوع</span></button>
+      <div class="pay-header">
+        <div class="pay-icon">🏦</div>
+        <h2 class="pay-title" data-ar="التحويل البنكي" data-en="Bank Transfer">التحويل البنكي</h2>
+        <p class="pay-sub" data-ar="البنك الأهلي السعودي — مؤسسة الأهلي" data-en="Saudi National Bank — Al Ahli">البنك الأهلي السعودي — مؤسسة الأهلي</p>
+      </div>
+      <div class="bank-details-card">
+        <div class="bank-detail-row">
+          <span data-ar="اسم المستفيد" data-en="Beneficiary Name">اسم المستفيد</span>
+          <strong data-ar="كازا ستار للإسترخاء" data-en="Casastar Relaxation">كازا ستار للإسترخاء</strong>
+        </div>
+        <div class="bank-detail-row">
+          <span data-ar="البنك" data-en="Bank">البنك</span>
+          <strong data-ar="البنك الأهلي السعودي" data-en="Saudi National Bank (Al Ahli)">البنك الأهلي السعودي</strong>
+        </div>
+        <div class="bank-detail-row iban-row">
+          <span>IBAN</span>
+          <!-- 🔧 EASY IBAN REPLACEMENT: change the value below when you get the IBAN -->
+          <div class="iban-copy-wrap">
+            <strong class="iban-value" id="ibanValue" dir="ltr">SA00 0000 0000 0000 0000 0000</strong>
+            <button class="copy-btn" id="copyIban" type="button" aria-label="Copy IBAN">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="bank-detail-row pay-amount-highlight">
+          <span data-ar="المبلغ المطلوب" data-en="Amount Due">المبلغ المطلوب</span>
+          <strong class="pay-amount" id="bankAmount">— <span data-ar="ريال" data-en="SAR">ريال</span></strong>
+        </div>
+      </div>
+      <div class="pay-instructions">
+        <p data-ar="📌 تعليمات:" data-en="📌 Instructions:">📌 تعليمات:</p>
+        <ol>
+          <li data-ar="حوّل المبلغ المذكور إلى الحساب أعلاه" data-en="Transfer the exact amount to the account above">حوّل المبلغ المذكور إلى الحساب أعلاه</li>
+          <li data-ar="اكتب اسمك ورقم الهاتف في خانة الملاحظات" data-en="Include your name and phone in the notes field">اكتب اسمك ورقم الهاتف في خانة الملاحظات</li>
+          <li data-ar="أرسل صورة الإيصال عبر واتساب لتأكيد الحجز" data-en="Send the receipt screenshot via WhatsApp to confirm">أرسل صورة الإيصال عبر واتساب لتأكيد الحجز</li>
+        </ol>
+      </div>
+      <button class="pay-confirm-btn" id="bankWhatsappBtn" type="button" data-ar="✅ أرسل إيصال الدفع عبر واتساب" data-en="✅ Send Payment Receipt via WhatsApp">✅ أرسل إيصال الدفع عبر واتساب</button>
+    </div>
+
+    <!-- Step 2b: STC Pay / Mada -->
+    <div class="pay-step" id="payStepDigital" style="display:none;">
+      <button class="pay-back-btn" id="payBackDigital" type="button">← <span data-ar="رجوع" data-en="Back">رجوع</span></button>
+      <div class="pay-header">
+        <div class="pay-icon" id="digitalMethodIcon">📱</div>
+        <h2 class="pay-title" id="digitalMethodTitle">STC Pay</h2>
+        <p class="pay-sub" id="digitalMethodSub" data-ar="تحويل سريع عبر الجوال" data-en="Fast mobile payment">تحويل سريع عبر الجوال</p>
+      </div>
+
+      <div class="bank-details-card">
+        <div class="bank-detail-row">
+          <span data-ar="المستفيد" data-en="Recipient">المستفيد</span>
+          <strong data-ar="كازا ستار للإسترخاء" data-en="Casastar Relaxation">كازا ستار للإسترخاء</strong>
+        </div>
+        <div class="bank-detail-row">
+          <span data-ar="رقم الجوال" data-en="Mobile Number">رقم الجوال</span>
+          <div class="iban-copy-wrap">
+            <strong class="iban-value" dir="ltr">+966 54 978 5075</strong>
+            <button class="copy-btn" id="copyMobile" type="button" aria-label="Copy number">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="bank-detail-row pay-amount-highlight">
+          <span data-ar="المبلغ المطلوب" data-en="Amount Due">المبلغ المطلوب</span>
+          <strong class="pay-amount" id="digitalAmount">— <span data-ar="ريال" data-en="SAR">ريال</span></strong>
+        </div>
+      </div>
+
+      <div class="pay-digital-steps">
+        <div class="digital-step">
+          <div class="digital-step-num">1</div>
+          <p id="digitalStep1Ar">افتح تطبيق STC Pay على جوالك</p>
+        </div>
+        <div class="digital-step">
+          <div class="digital-step-num">2</div>
+          <p data-ar="اختر «تحويل» ثم أدخل رقم الجوال أعلاه" data-en="Choose «Transfer» then enter the mobile number above">اختر «تحويل» ثم أدخل رقم الجوال أعلاه</p>
+        </div>
+        <div class="digital-step">
+          <div class="digital-step-num">3</div>
+          <p data-ar="أدخل المبلغ بالضبط واكتب اسمك في خانة الملاحظات" data-en="Enter the exact amount and write your name in the notes">أدخل المبلغ بالضبط واكتب اسمك في خانة الملاحظات</p>
+        </div>
+        <div class="digital-step">
+          <div class="digital-step-num">4</div>
+          <p data-ar="أرسل صورة الإيصال عبر واتساب لتأكيد موعدك" data-en="Send the receipt screenshot via WhatsApp to confirm">أرسل صورة الإيصال عبر واتساب لتأكيد موعدك</p>
+        </div>
+      </div>
+
+      <button class="pay-confirm-btn" id="digitalWhatsappBtn" type="button" data-ar="✅ أرسل إيصال الدفع عبر واتساب" data-en="✅ Send Payment Receipt via WhatsApp">✅ أرسل إيصال الدفع عبر واتساب</button>
+    </div>
+
+    <!-- Step 2c: Cash on Arrival -->
+    <div class="pay-step" id="payStepCash" style="display:none;">
+      <button class="pay-back-btn" id="payBackCash" type="button">← <span data-ar="رجوع" data-en="Back">رجوع</span></button>
+      <div class="pay-header">
+        <div class="pay-icon">💵</div>
+        <h2 class="pay-title" data-ar="نقداً عند الوصول" data-en="Cash on Arrival">نقداً عند الوصول</h2>
+        <p class="pay-sub" data-ar="سيتم إرسال تأكيد الحجز لصاحب الصالون عبر واتساب" data-en="A booking confirmation will be sent to the owner via WhatsApp">سيتم إرسال تأكيد الحجز لصاحب الصالون عبر واتساب</p>
+      </div>
+      <div class="cash-info-card">
+        <div class="pay-summary-row">
+          <span data-ar="الخدمة" data-en="Service">الخدمة</span>
+          <strong id="cashService">—</strong>
+        </div>
+        <div class="pay-summary-row">
+          <span data-ar="الاسم" data-en="Name">الاسم</span>
+          <strong id="cashName">—</strong>
+        </div>
+        <div class="pay-summary-total">
+          <span data-ar="المبلغ عند الوصول" data-en="Amount on Arrival">المبلغ عند الوصول</span>
+          <strong class="pay-amount" id="cashAmount">— <span data-ar="ريال" data-en="SAR">ريال</span></strong>
+        </div>
+      </div>
+      <div class="pay-instructions">
+        <p data-ar="📌 ملاحظة:" data-en="📌 Note:">📌 ملاحظة:</p>
+        <ol>
+          <li data-ar="سيتلقى صاحب الصالون إشعاراً بموعدك فور الضغط على زر التأكيد" data-en="The owner will receive a notification as soon as you confirm">سيتلقى صاحب الصالون إشعاراً بموعدك فور الضغط على زر التأكيد</li>
+          <li data-ar="يُرجى الالتزام بموعدك أو التواصل للإلغاء قبل ساعتين" data-en="Please arrive on time or cancel at least 2 hours before">يُرجى الالتزام بموعدك أو التواصل للإلغاء قبل ساعتين</li>
+        </ol>
+      </div>
+      <button class="pay-confirm-btn" id="cashConfirmBtn" type="button" data-ar="✅ تأكيد الحجز وإبلاغ الصالون" data-en="✅ Confirm Booking & Notify Salon">✅ تأكيد الحجز وإبلاغ الصالون</button>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div class="pay-step" id="payStepSuccess" style="display:none;">
+      <div class="pay-success">
+        <div class="pay-success-icon">✅</div>
+        <h2 data-ar="تم إرسال طلبك!" data-en="Booking Sent!">تم إرسال طلبك!</h2>
+        <p data-ar="سيتواصل معك صاحب الصالون لتأكيد موعدك قريباً." data-en="The salon owner will contact you shortly to confirm your appointment.">سيتواصل معك صاحب الصالون لتأكيد موعدك قريباً.</p>
+        <button class="pay-confirm-btn" id="payDoneBtn" type="button" data-ar="إغلاق" data-en="Close">إغلاق</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ===== END PAYMENT MODAL ===== -->
 
 <script src="js/main.js"></script>
 </body>

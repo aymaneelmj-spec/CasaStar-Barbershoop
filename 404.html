@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — كازا ستار للإسترخاء</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    :root {
+      --black:     #080808;
+      --dark:      #111111;
+      --card:      #181818;
+      --border:    #2a2a2a;
+      --gold:      #C9A84C;
+      --gold-light:#E8C96A;
+      --gold-dim:  rgba(201,168,76,0.15);
+      --cream:     #F5F0E8;
+      --muted:     #888888;
+      --font-ar:   'Cairo', sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      background: var(--black);
+      color: var(--cream);
+      font-family: var(--font-ar);
+      direction: rtl;
+      overflow-x: hidden;
+    }
+
+    /* ── Grid of subtle barber poles in background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 28px,
+          rgba(201,168,76,0.03) 28px,
+          rgba(201,168,76,0.03) 30px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    /* ── Animated scissors icon ── */
+    .scissors-wrap {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin-bottom: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50%      { transform: translateY(-14px) rotate(3deg); }
+    }
+
+    .scissors-wrap svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 28px rgba(201,168,76,0.55));
+    }
+
+    /* ── 404 number ── */
+    .err-code {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(5rem, 20vw, 9rem);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), #8B6914);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+      animation: glimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes glimmer {
+      0%,100% { filter: brightness(1); }
+      50%      { filter: brightness(1.2); }
+    }
+
+    /* ── Barber pole divider ── */
+    .pole-divider {
+      width: 60px;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+      margin: 0.75rem auto 1.5rem;
+      background-size: 200% 100%;
+      animation: shineBar 2s linear infinite;
+    }
+    @keyframes shineBar {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .err-title {
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 900;
+      color: var(--cream);
+      margin-bottom: 0.75rem;
+    }
+
+    .err-sub {
+      color: var(--muted);
+      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+      max-width: 420px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Action buttons ── */
+    .err-btns {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--black);
+      border-radius: 100px;
+      font-family: var(--font-ar);
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+    }
+
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      background: transparent;
+      color: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      font-family: var(--font-ar);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .btn-wa:hover {
+      border-color: #25D366;
+      background: rgba(37,211,102,0.07);
+      transform: translateY(-2px);
+    }
+    .btn-wa svg { color: #25D366; }
+
+    /* ── Bottom logo ── */
+    .err-logo {
+      margin-top: 3rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      opacity: 0.6;
+    }
+    .err-logo strong {
+      color: var(--gold);
+      letter-spacing: 0.2em;
+    }
+
+    /* ── Floating mini scissors in background ── */
+    .bg-scissor {
+      position: fixed;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-scissor:nth-child(1) { width: 180px; top: 10%; right: 5%;  animation: bgFloat1 8s ease-in-out infinite; }
+    .bg-scissor:nth-child(2) { width: 120px; top: 60%; left: 3%;  animation: bgFloat2 6s ease-in-out infinite; }
+    .bg-scissor:nth-child(3) { width: 90px;  bottom: 15%; right: 15%; animation: bgFloat1 10s ease-in-out infinite 1s; }
+
+    @keyframes bgFloat1 {
+      0%,100% { transform: translateY(0) rotate(10deg); }
+      50%      { transform: translateY(-20px) rotate(-10deg); }
+    }
+    @keyframes bgFloat2 {
+      0%,100% { transform: translateY(0) rotate(-15deg); }
+      50%      { transform: translateY(18px) rotate(15deg); }
+    }
+
+    /* ── Language toggle (minimal) ── */
+    .lang-pill {
+      position: fixed;
+      top: 1.2rem;
+      left: 1.2rem;
+      padding: 0.35rem 0.9rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--gold);
+      cursor: pointer;
+      font-family: var(--font-ar);
+      transition: background 0.2s;
+      z-index: 10;
+    }
+    .lang-pill:hover { background: var(--border); }
+
+    /* ── Network-offline banner ── */
+    #offlineBanner {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      gap: 0.5rem;
+      align-items: center;
+      white-space: nowrap;
+      z-index: 100;
+    }
+    #offlineBanner.show { display: flex; }
+
+    @media (max-width: 480px) {
+      .err-btns { flex-direction: column; align-items: center; }
+      .btn-home, .btn-wa { width: min(280px, 90vw); justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background decorative scissors -->
+<svg class="bg-scissor" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g><circle cx="35" cy="35" r="12" fill="none" stroke="#C9A84C" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#C9A84C" stroke-width="5" stroke-linecap="round"/><line x1="47" y1="38" x2="95" y2="75" stroke="#C9A84C" stroke-width="3" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#C9A84C" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#C9A84C" stroke-width="5" stroke-linecap="round"/><line x1="73" y1="38" x2="25" y2="75" stroke="#C9A84C" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#C9A84C"/></g>
+</svg>
+<svg class="bg-scissor" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g><circle cx="35" cy="35" r="12" fill="none" stroke="#E8C96A" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#E8C96A" stroke-width="5" stroke-linecap="round"/><line x1="47" y1="38" x2="95" y2="75" stroke="#E8C96A" stroke-width="3" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#E8C96A" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#E8C96A" stroke-width="5" stroke-linecap="round"/><line x1="73" y1="38" x2="25" y2="75" stroke="#E8C96A" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#E8C96A"/></g>
+</svg>
+<svg class="bg-scissor" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g><circle cx="35" cy="35" r="12" fill="none" stroke="#C9A84C" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#C9A84C" stroke-width="5" stroke-linecap="round"/><line x1="47" y1="38" x2="95" y2="75" stroke="#C9A84C" stroke-width="3" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#C9A84C" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#C9A84C" stroke-width="5" stroke-linecap="round"/><line x1="73" y1="38" x2="25" y2="75" stroke="#C9A84C" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#C9A84C"/></g>
+</svg>
+
+<button class="lang-pill" id="langToggle404" aria-label="Switch language">EN</button>
+
+<!-- Offline detected banner -->
+<div id="offlineBanner" role="alert">
+  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+  <span id="offlineText">لا يوجد اتصال بالإنترنت</span>
+</div>
+
+<div class="page">
+
+  <!-- Animated scissors -->
+  <div class="scissors-wrap">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="g404" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   style="stop-color:#F5D376;stop-opacity:1"/>
+          <stop offset="50%"  style="stop-color:#C9A84C;stop-opacity:1"/>
+          <stop offset="100%" style="stop-color:#8B6914;stop-opacity:1"/>
+        </linearGradient>
+        <filter id="glow404">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <g filter="url(#glow404)">
+        <circle cx="35" cy="35" r="12" fill="none" stroke="url(#g404)" stroke-width="4"/>
+        <line x1="43" y1="43" x2="90" y2="90" stroke="url(#g404)" stroke-width="5" stroke-linecap="round"/>
+        <line x1="47" y1="38" x2="95" y2="75" stroke="url(#g404)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="85" cy="35" r="12" fill="none" stroke="url(#g404)" stroke-width="4"/>
+        <line x1="77" y1="43" x2="30" y2="90" stroke="url(#g404)" stroke-width="5" stroke-linecap="round"/>
+        <line x1="73" y1="38" x2="25" y2="75" stroke="url(#g404)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="60" cy="60" r="5" fill="url(#g404)"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="err-code" id="errCode">404</div>
+  <div class="pole-divider"></div>
+
+  <h1 class="err-title" id="errTitle">هذه الصفحة لم يُعثر عليها</h1>
+  <p class="err-sub" id="errSub">
+    يبدو أن المقص قطع هذا الرابط! الصفحة التي تبحث عنها غير موجودة أو تم نقلها.
+    عُد إلى الصفحة الرئيسية واستمتع بتجربة كازا ستار.
+  </p>
+
+  <div class="err-btns">
+    <a href="/" class="btn-home" id="btnHome">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span id="btnHomeText">العودة للرئيسية</span>
+    </a>
+    <a href="https://wa.me/966549785075" class="btn-wa" target="_blank" rel="noopener noreferrer" id="btnWa">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      <span id="btnWaText">تواصل عبر واتساب</span>
+    </a>
+  </div>
+
+  <div class="err-logo">
+    <strong>CASASTAR</strong> &bull; كازا ستار للإسترخاء
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var lang = 'ar';
+
+  var strings = {
+    ar: {
+      title:    'هذه الصفحة لم يُعثر عليها',
+      sub:      'يبدو أن المقص قطع هذا الرابط! الصفحة التي تبحث عنها غير موجودة أو تم نقلها. عُد إلى الصفحة الرئيسية واستمتع بتجربة كازا ستار.',
+      home:     'العودة للرئيسية',
+      wa:       'تواصل عبر واتساب',
+      offline:  'لا يوجد اتصال بالإنترنت',
+      toggle:   'EN'
+    },
+    en: {
+      title:    'Page Not Found',
+      sub:      'Looks like the scissors snipped this link! The page you\'re looking for doesn\'t exist or has been moved. Head back home and enjoy the Casastar experience.',
+      home:     'Back to Home',
+      wa:       'Chat on WhatsApp',
+      offline:  'No internet connection',
+      toggle:   'ع'
+    }
+  };
+
+  function applyLang() {
+    var s = strings[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('errTitle').textContent   = s.title;
+    document.getElementById('errSub').textContent     = s.sub;
+    document.getElementById('btnHomeText').textContent = s.home;
+    document.getElementById('btnWaText').textContent  = s.wa;
+    document.getElementById('offlineText').textContent = s.offline;
+    document.getElementById('langToggle404').textContent = s.toggle;
+  }
+
+  document.getElementById('langToggle404').addEventListener('click', function() {
+    lang = lang === 'ar' ? 'en' : 'ar';
+    applyLang();
+  });
+
+  // Detect if this is a connection error vs a real 404
+  var offline = !navigator.onLine;
+  if (offline) {
+    document.getElementById('offlineBanner').classList.add('show');
+    document.getElementById('errCode').textContent = '⚠';
+    document.getElementById('errTitle').textContent = lang === 'ar'
+      ? 'تعذّر الاتصال بالخادم'
+      : 'Connection Error';
+    document.getElementById('errSub').textContent = lang === 'ar'
+      ? 'تحقق من اتصالك بالإنترنت ثم أعد المحاولة. إذا استمرت المشكلة، تواصل معنا عبر واتساب.'
+      : 'Check your internet connection and try again. If the problem persists, contact us via WhatsApp.';
+  }
+
+  window.addEventListener('online',  function() { document.getElementById('offlineBanner').classList.remove('show'); });
+  window.addEventListener('offline', function() { document.getElementById('offlineBanner').classList.add('show'); });
+
+  // Auto-redirect to home after 30s if user hasn't interacted
+  var countdown = 30;
+  var timer = setInterval(function() {
+    countdown--;
+    if (countdown <= 0) { clearInterval(timer); window.location.href = '/'; }
+  }, 1000);
+
+  // Cancel redirect on any interaction
+  ['click','touchstart','keydown'].forEach(function(e) {
+    document.addEventListener(e, function() { clearInterval(timer); }, { once: true });
+  });
+})();
+</script>
+
+</body>
+</html>
