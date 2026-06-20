@@ -16,7 +16,7 @@
     }
     window.addEventListener('load', function() {
       // delay so it starts smoothly with the loaded page
-      setTimeout(playOnce, 2500);
+      setTimeout(playOnce, 1800);
     });
     // Fallback: first user interaction unlocks autoplay on mobile
     ['touchstart','click','keydown'].forEach(function(evt) {
@@ -918,7 +918,7 @@
   // PAYMENT MODAL
   // ============================================================
   // 🔧 IBAN CONFIG — replace the value below when you receive the IBAN
-  var OWNER_IBAN = 'SA00 0000 0000 0000 0000 0000'; // <-- REPLACE WITH REAL IBAN
+  var OWNER_IBAN = 'SA9110000001400020838808'; // 
 
   var paymentOverlay = document.getElementById('paymentOverlay');
   var paymentClose  = document.getElementById('paymentClose');
