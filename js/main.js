@@ -460,27 +460,39 @@
     }, 600);
   }
 
+  function startServiceBooking(serviceAr, serviceEn, price) {
+    selectedService = { ar: serviceAr, en: serviceEn, price: price };
+    selectedServiceName = currentLang === 'ar' ? serviceAr : serviceEn;
+    selectedServicePrice = price;
+
+    openChat();
+    resetChat();
+    setTimeout(async function () {
+      addBotMsg(
+        'مرحباً! لحجز خدمة: ' + serviceAr + ' (' + price + ' ريال). ما هو اسمك؟',
+        'Hi! To book: ' + serviceEn + ' (' + price + ' SAR). What is your name?'
+      );
+      await new Promise(r => setTimeout(r, 300));
+      addNameInput();
+    }, 200);
+  }
+
   document.querySelectorAll('.btn-book-service').forEach(function (btn) {
     btn.addEventListener('click', function () {
       const card = btn.closest('.service-card');
       const serviceAr = card.getAttribute('data-service') || '';
       const serviceEn = card.getAttribute('data-en-name') || serviceAr;
       const price = card.getAttribute('data-price') || '';
+      startServiceBooking(serviceAr, serviceEn, price);
+    });
+  });
 
-      selectedService = { ar: serviceAr, en: serviceEn, price: price };
-      selectedServiceName = currentLang === 'ar' ? serviceAr : serviceEn;
-      selectedServicePrice = price;
-
-      openChat();
-      resetChat();
-      setTimeout(async function () {
-        addBotMsg(
-          'مرحباً! لحجز خدمة: ' + serviceAr + ' (' + price + ' ريال). ما هو اسمك؟',
-          'Hi! To book: ' + serviceEn + ' (' + price + ' SAR). What is your name?'
-        );
-        await new Promise(r => setTimeout(r, 300));
-        addNameInput();
-      }, 200);
+  document.querySelectorAll('.price-row').forEach(function (row) {
+    row.addEventListener('click', function () {
+      const serviceAr = row.getAttribute('data-service') || '';
+      const serviceEn = row.getAttribute('data-en-name') || serviceAr;
+      const price = row.getAttribute('data-price') || '';
+      startServiceBooking(serviceAr, serviceEn, price);
     });
   });
 
@@ -694,42 +706,5 @@
         (e.ctrlKey && (k === 'U' || k === 'u'));
       if (blocked) e.preventDefault();
     });
-
-    const devtoolsOverlay = document.createElement('div');
-    devtoolsOverlay.id = 'devtoolsOverlay';
-    devtoolsOverlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#080808;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem;';
-    devtoolsOverlay.innerHTML =
-      '<div style="font-size:3rem;margin-bottom:1rem;">✨</div>' +
-      '<div style="color:#F5F0E8;font-family:\'Cairo\',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:0.6rem;">كازا ستار للإسترخاء</div>' +
-      '<div style="color:#C9A84C;font-family:\'Cairo\',sans-serif;font-size:1rem;font-weight:700;margin-bottom:1rem;">صُمم هذا الموقع بعناية من قِبل Ayman El Mjaber Developer ✨</div>' +
-      '<div style="color:#888;font-family:sans-serif;font-size:0.85rem;max-width:400px;">For security reasons, developer tools are disabled on this page. Thank you for visiting Casastar 💈</div>';
-    document.body.appendChild(devtoolsOverlay);
-
-    let detected = false;
-    function showOverlay() {
-      if (detected) return;
-      detected = true;
-      devtoolsOverlay.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
-
-    const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
-    const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-    const isMobile = isTouchDevice || isCoarsePointer || window.innerWidth < 900;
-
-    if (!isMobile) {
-      const threshold = 220;
-      let consecutiveHits = 0;
-      setInterval(function () {
-        const widthGap = window.outerWidth - window.innerWidth > threshold;
-        const heightGap = window.outerHeight - window.innerHeight > threshold;
-        if (widthGap || heightGap) {
-          consecutiveHits++;
-          if (consecutiveHits >= 3) showOverlay();
-        } else {
-          consecutiveHits = 0;
-        }
-      }, 1000);
-    }
   })();
 })();
