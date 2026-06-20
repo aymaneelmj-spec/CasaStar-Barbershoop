@@ -81,8 +81,10 @@
 
     const floatBtn = document.getElementById('whatsappFloat');
     const contactBtn = document.getElementById('whatsappContactLink');
+    const footerBtn = document.getElementById('footerContactLink');
     if (floatBtn) floatBtn.setAttribute('href', url);
     if (contactBtn) contactBtn.setAttribute('href', url);
+    if (footerBtn) footerBtn.setAttribute('href', url);
   }
 
   document.getElementById('langToggle').addEventListener('click', function () {
