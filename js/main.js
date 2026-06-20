@@ -133,6 +133,7 @@
   })();
 
   // ───────────────────────────────────────────────────────────
+  const PHONE = '966549785075';
   let currentLang = 'ar';
   let selectedService = null;
   let selectedServiceName = '';
@@ -1075,4 +1076,3 @@
       if (blocked) e.preventDefault();
     });
   })();
-})();
