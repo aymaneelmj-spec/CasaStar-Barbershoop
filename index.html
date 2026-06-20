@@ -13,22 +13,27 @@
   <meta name="geo.region" content="SA-MD">
   <meta name="geo.placename" content="المدينة المنورة">
   <meta name="language" content="Arabic">
-  <link rel="alternate" hreflang="ar" href="#ar">
-  <link rel="alternate" hreflang="en" href="#en">
+  <link rel="alternate" hreflang="ar" href="https://casastarbarber.com/">
+  <link rel="alternate" hreflang="en" href="https://casastarbarber.com/">
+  <link rel="alternate" hreflang="x-default" href="https://casastarbarber.com/">
   <link rel="canonical" href="https://casastarbarber.com/">
 
   <meta property="og:type" content="local.business">
+  <meta property="og:url" content="https://casastarbarber.com/">
   <meta property="og:locale" content="ar_SA">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:title" content="كازا ستار للإسترخاء | Casastar Barber Shop">
   <meta property="og:description" content="أفضل صالون حلاقة ومساج في المدينة المنورة. حمام مغربي، مساج استرخاء، حلاقة VIP. مفتوح 24 ساعة.">
-  <meta property="og:image" content="images/mainbackground.jpg">
+  <meta property="og:image" content="https://casastarbarber.com/images/mainbackground.jpg">
+  <meta property="og:image:width" content="1600">
+  <meta property="og:image:height" content="900">
+  <meta property="og:image:alt" content="كازا ستار للإسترخاء - صالون حلاقة ومساج المدينة المنورة">
   <meta property="og:site_name" content="كازا ستار للإسترخاء">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="كازا ستار للإسترخاء | Casastar Barber Shop">
   <meta name="twitter:description" content="أفضل صالون حلاقة ومساج في المدينة المنورة. مفتوح 24 ساعة.">
-  <meta name="twitter:image" content="images/mainbackground.jpg">
+  <meta name="twitter:image" content="https://casastarbarber.com/images/mainbackground.jpg">
 
   <script type="application/ld+json">
   {
@@ -54,13 +59,54 @@
       "longitude": "39.6447169"
     },
     "hasMap": "https://www.google.com/maps/place/Casastar+barber+shop/@24.4521325,39.6447169,15z",
-    "image": "images/mainbackground.jpg",
-    "sameAs": []
+    "image": "https://casastarbarber.com/images/mainbackground.jpg",
+    "sameAs": [],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "10",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Albert V" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Very nice and clean barbershop with professional and welcoming staff."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Zohaib Raja" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Wonderful facial and beard trim service, highly recommended."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Mohammed Nadeem" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Excellent haircut and beard trim service."
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": "https://casastarbarber.com/" },
+      { "@type": "ListItem", "position": 2, "name": "خدماتنا", "item": "https://casastarbarber.com/#services" },
+      { "@type": "ListItem", "position": 3, "name": "معرض الصور", "item": "https://casastarbarber.com/#gallery" },
+      { "@type": "ListItem", "position": 4, "name": "تواصل معنا", "item": "https://casastarbarber.com/#contact" }
+    ]
   }
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="images/mainbackground.jpg" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; connect-src 'self';">
@@ -139,7 +185,7 @@
     </nav>
     <div class="nav-actions">
       <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
-      <a href="#booking" class="btn-book-nav" id="bookNowNav" aria-label="احجز الآن">احجز الآن</a>
+      <a href="#booking" class="btn-book-nav" id="bookNowNav" data-ar="احجز الآن" data-en="Book Now" aria-label="احجز الآن">احجز الآن</a>
       <button class="hamburger" id="hamburger" aria-label="فتح القائمة" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -163,7 +209,7 @@
   </div>
   <div class="hero-content">
     <div class="hero-badge" data-ar="مفتوح 24 ساعة" data-en="Open 24 Hours">مفتوح 24 ساعة</div>
-    <h1 class="hero-title" data-ar="كازاستار للحلاقة والإسترخاء" data-en="Casastar Relaxation">كازا ستار للإسترخاء</h1>
+    <h1 class="hero-title" data-ar="كازا ستار للإسترخاء" data-en="Casastar Relaxation">كازا ستار للإسترخاء</h1>
     <p class="hero-sub" data-ar="المدينة المنورة • حلاقة VIP • حمام مغربي • مساج فاخر" data-en="Madinah • VIP Haircut • Moroccan Hammam • Luxury Massage">المدينة المنورة &bull; حلاقة VIP &bull; حمام مغربي &bull; مساج فاخر</p>
     <div class="hero-btns">
       <a href="#booking" class="btn-primary" data-ar="احجز الآن" data-en="Book Now">احجز الآن</a>
@@ -172,9 +218,9 @@
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">24/7</span><span class="stat-label" data-ar="مفتوح دائماً" data-en="Always Open">مفتوح دائماً</span></div>
       <div class="stat-div"></div>
-      <div class="stat"><span class="stat-num">900+</span><span class="stat-label" data-ar="عميل سعيد" data-en="Happy Clients">عميل سعيد</span></div>
+      <div class="stat"><span class="stat-num">500+</span><span class="stat-label" data-ar="عميل سعيد" data-en="Happy Clients">عميل سعيد</span></div>
       <div class="stat-div"></div>
-      <div class="stat"><span class="stat-num">20+</span><span class="stat-label" data-ar="خدمة متميزة" data-en="Premium Services">خدمة متميزة</span></div>
+      <div class="stat"><span class="stat-num">10+</span><span class="stat-label" data-ar="خدمة متميزة" data-en="Premium Services">خدمة متميزة</span></div>
     </div>
   </div>
   <div class="hero-scroll-hint">
@@ -547,23 +593,186 @@
       <p class="section-eyebrow" data-ar="معرض الصور" data-en="Gallery">معرض الصور</p>
       <h2 data-ar="أجواء كازا ستار" data-en="Casastar Atmosphere">أجواء كازا ستار</h2>
     </div>
-    <div class="gallery-grid">
-      <div class="gallery-item large">
-        <img src="images/4.jpg" alt="صالون كازا ستار للإسترخاء - المدخل الرئيسي" loading="lazy">
-        <div class="gallery-overlay"><span data-ar="صالون كازا ستار" data-en="Casastar Salon">صالون كازا ستار</span></div>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item" data-index="0">
+        <img src="images/1.jpg" alt="صالون كازا ستار للإسترخاء - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="صالون كازا ستار للإسترخاء" data-en="Casastar Relaxation Salon">صالون كازا ستار للإسترخاء</span></div>
       </div>
-      <div class="gallery-item">
-        <img src="images/3.jpg" alt="واجهة كازا ستار للإسترخاء" loading="lazy">
-        <div class="gallery-overlay"><span data-ar="الواجهة الخارجية" data-en="Exterior View">الواجهة الخارجية</span></div>
+      <div class="gallery-item" data-index="1">
+        <img src="images/2.jpg" alt="خدمة حلاقة VIP في كازا ستار - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="خدمة حلاقة VIP في كازا ستار" data-en="VIP haircut service at Casastar">خدمة حلاقة VIP في كازا ستار</span></div>
       </div>
-      <div class="gallery-item">
-        <img src="images/1.jpg" alt="قائمة خدمات الاسترخاء والمساج" loading="lazy">
-        <div class="gallery-overlay"><span data-ar="خدمات الاسترخاء" data-en="Relaxation Services">خدمات الاسترخاء</span></div>
+      <div class="gallery-item" data-index="2">
+        <img src="images/3.jpg" alt="حمام مغربي ملكي فاخر - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="حمام مغربي ملكي فاخر" data-en="Luxury royal Moroccan hammam">حمام مغربي ملكي فاخر</span></div>
       </div>
-      <div class="gallery-item">
-        <img src="images/2.jpg" alt="قائمة أسعار الحلاقة" loading="lazy">
-        <div class="gallery-overlay"><span data-ar="خدمات الحلاقة" data-en="Barber Services">خدمات الحلاقة</span></div>
+      <div class="gallery-item" data-index="3">
+        <img src="images/4.jpg" alt="جلسة مساج استرخاء فاخرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="جلسة مساج استرخاء فاخرة" data-en="Luxury relaxation massage session">جلسة مساج استرخاء فاخرة</span></div>
       </div>
+      <div class="gallery-item" data-index="4">
+        <img src="images/5.jpg" alt="تهذيب اللحية بأحدث التقنيات - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="تهذيب اللحية بأحدث التقنيات" data-en="Beard grooming with the latest techniques">تهذيب اللحية بأحدث التقنيات</span></div>
+      </div>
+      <div class="gallery-item" data-index="5">
+        <img src="images/6.jpg" alt="أجواء راقية داخل الصالون - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="أجواء راقية داخل الصالون" data-en="Elegant atmosphere inside the salon">أجواء راقية داخل الصالون</span></div>
+      </div>
+      <div class="gallery-item" data-index="6">
+        <img src="images/7.jpg" alt="فريق الحلاقين المحترفين - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="فريق الحلاقين المحترفين" data-en="Team of professional barbers">فريق الحلاقين المحترفين</span></div>
+      </div>
+      <div class="gallery-item" data-index="7">
+        <img src="images/8.jpg" alt="تجهيز العريس يوم الزفاف - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="تجهيز العريس يوم الزفاف" data-en="Groom preparation on wedding day">تجهيز العريس يوم الزفاف</span></div>
+      </div>
+      <div class="gallery-item" data-index="8">
+        <img src="images/9.jpg" alt="خدمات العناية بالبشرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="خدمات العناية بالبشرة" data-en="Skincare services">خدمات العناية بالبشرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="9">
+        <img src="images/10.jpg" alt="منتجات تجميل فاخرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="منتجات تجميل فاخرة" data-en="Luxury grooming products">منتجات تجميل فاخرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="10">
+        <img src="images/11.jpg" alt="ديكور صالون كازا ستار - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="ديكور صالون كازا ستار" data-en="Casastar salon interior design">ديكور صالون كازا ستار</span></div>
+      </div>
+      <div class="gallery-item" data-index="11">
+        <img src="images/12.jpg" alt="قصة شعر عصرية - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="قصة شعر عصرية" data-en="Modern haircut style">قصة شعر عصرية</span></div>
+      </div>
+      <div class="gallery-item" data-index="12">
+        <img src="images/13.jpg" alt="صالون كازا ستار للإسترخاء - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="صالون كازا ستار للإسترخاء" data-en="Casastar Relaxation Salon">صالون كازا ستار للإسترخاء</span></div>
+      </div>
+      <div class="gallery-item" data-index="13">
+        <img src="images/14.jpg" alt="خدمة حلاقة VIP في كازا ستار - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="خدمة حلاقة VIP في كازا ستار" data-en="VIP haircut service at Casastar">خدمة حلاقة VIP في كازا ستار</span></div>
+      </div>
+      <div class="gallery-item" data-index="14">
+        <img src="images/15.jpg" alt="حمام مغربي ملكي فاخر - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="حمام مغربي ملكي فاخر" data-en="Luxury royal Moroccan hammam">حمام مغربي ملكي فاخر</span></div>
+      </div>
+      <div class="gallery-item" data-index="15">
+        <img src="images/16.jpg" alt="جلسة مساج استرخاء فاخرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="جلسة مساج استرخاء فاخرة" data-en="Luxury relaxation massage session">جلسة مساج استرخاء فاخرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="16" hidden>
+        <img src="images/17.jpg" alt="تهذيب اللحية بأحدث التقنيات - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="تهذيب اللحية بأحدث التقنيات" data-en="Beard grooming with the latest techniques">تهذيب اللحية بأحدث التقنيات</span></div>
+      </div>
+      <div class="gallery-item" data-index="17" hidden>
+        <img src="images/18.jpg" alt="أجواء راقية داخل الصالون - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="أجواء راقية داخل الصالون" data-en="Elegant atmosphere inside the salon">أجواء راقية داخل الصالون</span></div>
+      </div>
+      <div class="gallery-item" data-index="18" hidden>
+        <img src="images/19.jpg" alt="فريق الحلاقين المحترفين - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="فريق الحلاقين المحترفين" data-en="Team of professional barbers">فريق الحلاقين المحترفين</span></div>
+      </div>
+      <div class="gallery-item" data-index="19" hidden>
+        <img src="images/20.jpg" alt="تجهيز العريس يوم الزفاف - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="تجهيز العريس يوم الزفاف" data-en="Groom preparation on wedding day">تجهيز العريس يوم الزفاف</span></div>
+      </div>
+      <div class="gallery-item" data-index="20" hidden>
+        <img src="images/21.jpg" alt="خدمات العناية بالبشرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="خدمات العناية بالبشرة" data-en="Skincare services">خدمات العناية بالبشرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="21" hidden>
+        <img src="images/22.jpg" alt="منتجات تجميل فاخرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="منتجات تجميل فاخرة" data-en="Luxury grooming products">منتجات تجميل فاخرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="22" hidden>
+        <img src="images/23.jpg" alt="ديكور صالون كازا ستار - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="ديكور صالون كازا ستار" data-en="Casastar salon interior design">ديكور صالون كازا ستار</span></div>
+      </div>
+      <div class="gallery-item" data-index="23" hidden>
+        <img src="images/24.jpg" alt="قصة شعر عصرية - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="قصة شعر عصرية" data-en="Modern haircut style">قصة شعر عصرية</span></div>
+      </div>
+      <div class="gallery-item" data-index="24" hidden>
+        <img src="images/25.jpg" alt="صالون كازا ستار للإسترخاء - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="صالون كازا ستار للإسترخاء" data-en="Casastar Relaxation Salon">صالون كازا ستار للإسترخاء</span></div>
+      </div>
+      <div class="gallery-item" data-index="25" hidden>
+        <img src="images/26.jpg" alt="خدمة حلاقة VIP في كازا ستار - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="خدمة حلاقة VIP في كازا ستار" data-en="VIP haircut service at Casastar">خدمة حلاقة VIP في كازا ستار</span></div>
+      </div>
+      <div class="gallery-item" data-index="26" hidden>
+        <img src="images/27.jpg" alt="حمام مغربي ملكي فاخر - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="حمام مغربي ملكي فاخر" data-en="Luxury royal Moroccan hammam">حمام مغربي ملكي فاخر</span></div>
+      </div>
+      <div class="gallery-item" data-index="27" hidden>
+        <img src="images/28.jpg" alt="جلسة مساج استرخاء فاخرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="جلسة مساج استرخاء فاخرة" data-en="Luxury relaxation massage session">جلسة مساج استرخاء فاخرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="28" hidden>
+        <img src="images/29.jpg" alt="تهذيب اللحية بأحدث التقنيات - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="تهذيب اللحية بأحدث التقنيات" data-en="Beard grooming with the latest techniques">تهذيب اللحية بأحدث التقنيات</span></div>
+      </div>
+      <div class="gallery-item" data-index="29" hidden>
+        <img src="images/30.jpg" alt="أجواء راقية داخل الصالون - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="أجواء راقية داخل الصالون" data-en="Elegant atmosphere inside the salon">أجواء راقية داخل الصالون</span></div>
+      </div>
+      <div class="gallery-item" data-index="30" hidden>
+        <img src="images/31.jpg" alt="فريق الحلاقين المحترفين - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="فريق الحلاقين المحترفين" data-en="Team of professional barbers">فريق الحلاقين المحترفين</span></div>
+      </div>
+      <div class="gallery-item" data-index="31" hidden>
+        <img src="images/32.jpg" alt="تجهيز العريس يوم الزفاف - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="تجهيز العريس يوم الزفاف" data-en="Groom preparation on wedding day">تجهيز العريس يوم الزفاف</span></div>
+      </div>
+      <div class="gallery-item" data-index="32" hidden>
+        <img src="images/33.jpg" alt="خدمات العناية بالبشرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="خدمات العناية بالبشرة" data-en="Skincare services">خدمات العناية بالبشرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="33" hidden>
+        <img src="images/34.jpg" alt="منتجات تجميل فاخرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="منتجات تجميل فاخرة" data-en="Luxury grooming products">منتجات تجميل فاخرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="34" hidden>
+        <img src="images/35.jpg" alt="ديكور صالون كازا ستار - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="ديكور صالون كازا ستار" data-en="Casastar salon interior design">ديكور صالون كازا ستار</span></div>
+      </div>
+      <div class="gallery-item" data-index="35" hidden>
+        <img src="images/36.jpg" alt="قصة شعر عصرية - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="قصة شعر عصرية" data-en="Modern haircut style">قصة شعر عصرية</span></div>
+      </div>
+      <div class="gallery-item" data-index="36" hidden>
+        <img src="images/37.jpg" alt="صالون كازا ستار للإسترخاء - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="صالون كازا ستار للإسترخاء" data-en="Casastar Relaxation Salon">صالون كازا ستار للإسترخاء</span></div>
+      </div>
+      <div class="gallery-item" data-index="37" hidden>
+        <img src="images/38.jpg" alt="خدمة حلاقة VIP في كازا ستار - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="خدمة حلاقة VIP في كازا ستار" data-en="VIP haircut service at Casastar">خدمة حلاقة VIP في كازا ستار</span></div>
+      </div>
+      <div class="gallery-item" data-index="38" hidden>
+        <img src="images/39.jpg" alt="حمام مغربي ملكي فاخر - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="حمام مغربي ملكي فاخر" data-en="Luxury royal Moroccan hammam">حمام مغربي ملكي فاخر</span></div>
+      </div>
+      <div class="gallery-item" data-index="39" hidden>
+        <img src="images/40.jpg" alt="جلسة مساج استرخاء فاخرة - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="جلسة مساج استرخاء فاخرة" data-en="Luxury relaxation massage session">جلسة مساج استرخاء فاخرة</span></div>
+      </div>
+      <div class="gallery-item" data-index="40" hidden>
+        <img src="images/41.jpg" alt="تهذيب اللحية بأحدث التقنيات - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="تهذيب اللحية بأحدث التقنيات" data-en="Beard grooming with the latest techniques">تهذيب اللحية بأحدث التقنيات</span></div>
+      </div>
+      <div class="gallery-item" data-index="41" hidden>
+        <img src="images/42.jpg" alt="أجواء راقية داخل الصالون - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="أجواء راقية داخل الصالون" data-en="Elegant atmosphere inside the salon">أجواء راقية داخل الصالون</span></div>
+      </div>
+      <div class="gallery-item" data-index="42" hidden>
+        <img src="images/43.jpg" alt="فريق الحلاقين المحترفين - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="فريق الحلاقين المحترفين" data-en="Team of professional barbers">فريق الحلاقين المحترفين</span></div>
+      </div>
+      <div class="gallery-item" data-index="43" hidden>
+        <img src="images/44.jpg" alt="تجهيز العريس يوم الزفاف - كازا ستار للإسترخاء" loading="lazy" width="400" height="400">
+        <div class="gallery-overlay"><span data-ar="تجهيز العريس يوم الزفاف" data-en="Groom preparation on wedding day">تجهيز العريس يوم الزفاف</span></div>
+      </div>
+    </div>
+    <div class="gallery-load-more" id="galleryLoadMoreWrap">
+      <button id="galleryLoadMore" type="button" data-ar="عرض المزيد من الصور" data-en="Show More Photos">عرض المزيد من الصور</button>
     </div>
   </div>
 </section>

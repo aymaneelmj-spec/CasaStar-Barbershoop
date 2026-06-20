@@ -533,6 +533,87 @@
     chatBody.scrollTop = chatBody.scrollHeight;
   }
 
+  const galleryGrid = document.getElementById('galleryGrid');
+  const galleryLoadMore = document.getElementById('galleryLoadMore');
+  const galleryLoadMoreWrap = document.getElementById('galleryLoadMoreWrap');
+
+  if (galleryGrid && galleryLoadMore) {
+    galleryLoadMore.addEventListener('click', function () {
+      galleryGrid.querySelectorAll('.gallery-item[hidden]').forEach(function (item) {
+        item.removeAttribute('hidden');
+      });
+      galleryLoadMoreWrap.style.display = 'none';
+    });
+
+    const galleryItems = Array.from(galleryGrid.querySelectorAll('.gallery-item'));
+    let lightboxIndex = 0;
+
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox-overlay';
+    lightbox.innerHTML =
+      '<div class="lightbox-img-wrap">' +
+      '<button class="lightbox-close" type="button" aria-label="Close">✕</button>' +
+      '<button class="lightbox-nav prev" type="button" aria-label="Previous">' +
+      '<svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 4.5L8 12l7.5 7.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '</button>' +
+      '<button class="lightbox-nav next" type="button" aria-label="Next">' +
+      '<svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 4.5L16 12l-7.5 7.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '</button>' +
+      '<img src="" alt="">' +
+      '</div>';
+    document.body.appendChild(lightbox);
+
+    const lightboxImg = lightbox.querySelector('img');
+    const lightboxClose = lightbox.querySelector('.lightbox-close');
+    const lightboxPrev = lightbox.querySelector('.lightbox-nav.prev');
+    const lightboxNext = lightbox.querySelector('.lightbox-nav.next');
+
+    function showLightbox(index) {
+      lightboxIndex = index;
+      const item = galleryItems[lightboxIndex];
+      const img = item.querySelector('img');
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function navLightbox(direction) {
+      let next = lightboxIndex + direction;
+      if (next < 0) next = galleryItems.length - 1;
+      if (next >= galleryItems.length) next = 0;
+      while (galleryItems[next].hasAttribute('hidden')) {
+        next = next + direction;
+        if (next < 0) next = galleryItems.length - 1;
+        if (next >= galleryItems.length) next = 0;
+      }
+      showLightbox(next);
+    }
+
+    galleryItems.forEach(function (item, idx) {
+      item.addEventListener('click', function () { showLightbox(idx); });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    lightboxPrev.addEventListener('click', function () { navLightbox(-1); });
+    lightboxNext.addEventListener('click', function () { navLightbox(1); });
+
+    document.addEventListener('keydown', function (e) {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') navLightbox(document.documentElement.dir === 'rtl' ? -1 : 1);
+      if (e.key === 'ArrowLeft') navLightbox(document.documentElement.dir === 'rtl' ? 1 : -1);
+    });
+  }
+
   const reviewsTrack = document.getElementById('reviewsTrack');
   const dotsContainer = document.getElementById('reviewsDots');
   const reviewsPrevBtn = document.getElementById('reviewsPrev');
@@ -632,11 +713,23 @@
       document.body.style.overflow = 'hidden';
     }
 
-    const threshold = 160;
-    setInterval(function () {
-      const widthGap = window.outerWidth - window.innerWidth > threshold;
-      const heightGap = window.outerHeight - window.innerHeight > threshold;
-      if (widthGap || heightGap) showOverlay();
-    }, 1000);
+    const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    const isMobile = isTouchDevice || isCoarsePointer || window.innerWidth < 900;
+
+    if (!isMobile) {
+      const threshold = 220;
+      let consecutiveHits = 0;
+      setInterval(function () {
+        const widthGap = window.outerWidth - window.innerWidth > threshold;
+        const heightGap = window.outerHeight - window.innerHeight > threshold;
+        if (widthGap || heightGap) {
+          consecutiveHits++;
+          if (consecutiveHits >= 3) showOverlay();
+        } else {
+          consecutiveHits = 0;
+        }
+      }, 1000);
+    }
   })();
 })();
