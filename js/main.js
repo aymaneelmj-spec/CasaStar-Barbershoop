@@ -70,9 +70,22 @@
     if (btn) btn.textContent = currentLang === 'ar' ? 'EN' : 'ع';
   }
 
+  function setWhatsappGreeting() {
+    const greetAr = 'مرحباً كازا ستار للإسترخاء، أرغب في حجز موعد:\n- الخدمة المطلوبة: \n- الوقت المفضل: \n- الاسم: ';
+    const greetEn = "Hello Casastar Relaxation, I'd like to book an appointment:\n- Service wanted: \n- Preferred time: \n- Name: ";
+    const greeting = currentLang === 'ar' ? greetAr : greetEn;
+    const url = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(greeting);
+
+    const floatBtn = document.getElementById('whatsappFloat');
+    const contactBtn = document.getElementById('whatsappContactLink');
+    if (floatBtn) floatBtn.setAttribute('href', url);
+    if (contactBtn) contactBtn.setAttribute('href', url);
+  }
+
   document.getElementById('langToggle').addEventListener('click', function () {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
     applyLang();
+    setWhatsappGreeting();
   });
 
   const hamburger = document.getElementById('hamburger');
@@ -145,11 +158,26 @@
     document.body.style.overflow = '';
   }
 
-  document.getElementById('openChatBtn').addEventListener('click', openChat);
-  document.getElementById('bookNowNav').addEventListener('click', function (e) {
-    e.preventDefault();
+  document.getElementById('openChatBtn').addEventListener('click', function () {
+    resetChatToCategories();
     openChat();
   });
+  document.getElementById('bookNowNav').addEventListener('click', function (e) {
+    e.preventDefault();
+    resetChatToCategories();
+    openChat();
+  });
+  const bookNowMobile = document.getElementById('bookNowMobile');
+  if (bookNowMobile) {
+    bookNowMobile.addEventListener('click', function (e) {
+      e.preventDefault();
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      resetChatToCategories();
+      openChat();
+    });
+  }
 
   overlay.addEventListener('click', function (e) {
     if (e.target === overlay) closeChat();
@@ -315,19 +343,24 @@
       await delay(700);
 
       const priceLabel = currentLang === 'ar' ? 'ريال' : 'SAR';
-      const currency = currentLang === 'ar' ? 'ريال سعودي' : 'Saudi Riyal';
 
-      let msgAr = 'مرحباً، أود حجز موعد في كازا ستار للإسترخاء\n\n';
-      msgAr += 'الاسم: ' + name + '\n';
-      msgAr += 'الخدمة المطلوبة: ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
-      msgAr += 'السعر: ' + selectedServicePrice + ' ' + 'ريال سعودي' + '\n\n';
-      msgAr += 'أرجو التأكيد على الموعد. شكراً';
+      let msgAr = '*كازا ستار للإسترخاء*\n';
+      msgAr += '_طلب حجز موعد جديد_\n';
+      msgAr += '----------------------\n';
+      msgAr += '*الاسم:* ' + name + '\n';
+      msgAr += '*الخدمة:* ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
+      msgAr += '*السعر:* ' + selectedServicePrice + ' ريال سعودي\n';
+      msgAr += '----------------------\n';
+      msgAr += 'أرجو تأكيد الموعد المتاح، شكراً لكم';
 
-      let msgEn = 'Hello, I would like to book an appointment at Casastar Relaxation\n\n';
-      msgEn += 'Name: ' + name + '\n';
-      msgEn += 'Service: ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
-      msgEn += 'Price: ' + selectedServicePrice + ' SAR\n\n';
-      msgEn += 'Please confirm the appointment. Thank you.';
+      let msgEn = '*Casastar Relaxation*\n';
+      msgEn += '_New Booking Request_\n';
+      msgEn += '----------------------\n';
+      msgEn += '*Name:* ' + name + '\n';
+      msgEn += '*Service:* ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
+      msgEn += '*Price:* ' + selectedServicePrice + ' SAR\n';
+      msgEn += '----------------------\n';
+      msgEn += 'Please confirm the available time, thank you';
 
       const finalMsg = currentLang === 'ar' ? msgAr : msgEn;
       const encoded = encodeURIComponent(finalMsg);
@@ -380,8 +413,44 @@
     chatBody.appendChild(msg);
   }
 
+  function resetChatToCategories() {
+    selectedService = null;
+    selectedServiceName = '';
+    selectedServicePrice = '';
+    chatBody.innerHTML = '';
+
+    addBotMsg(
+      'مرحباً بك في كازا ستار للإسترخاء 👋 اختر نوع الخدمة التي تود حجزها:',
+      "Welcome to Casastar Relaxation 👋 Select the service type you'd like to book:"
+    );
+
+    const categories = [
+      { value: 'massage', ar: '♨ مساج واسترخاء', en: '♨ Massage & Relaxation' },
+      { value: 'hammam', ar: '🌿 حمام مغربي', en: '🌿 Moroccan Hammam' },
+      { value: 'barber', ar: '✂ الحلاقة', en: '✂ Barber' },
+      { value: 'care', ar: '✨ العناية والتجميل', en: '✨ Care & Beauty' }
+    ];
+
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-options';
+    categories.forEach(function (cat) {
+      const btn = document.createElement('button');
+      btn.className = 'chat-opt';
+      btn.setAttribute('data-step', 'category');
+      btn.setAttribute('data-value', cat.value);
+      btn.setAttribute('data-ar', cat.ar);
+      btn.setAttribute('data-en', cat.en);
+      btn.textContent = currentLang === 'ar' ? cat.ar : cat.en;
+      wrap.appendChild(btn);
+    });
+    chatBody.appendChild(wrap);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
   const reviewsTrack = document.getElementById('reviewsTrack');
   const dotsContainer = document.getElementById('reviewsDots');
+  const reviewsPrevBtn = document.getElementById('reviewsPrev');
+  const reviewsNextBtn = document.getElementById('reviewsNext');
   let cardCount = 0;
 
   if (reviewsTrack) {
@@ -402,12 +471,26 @@
 
     reviewsTrack.addEventListener('scroll', function () {
       const cardW = cards[0].offsetWidth + 24;
-      const idx = Math.round(reviewsTrack.scrollLeft / cardW);
+      const idx = Math.round(Math.abs(reviewsTrack.scrollLeft) / cardW);
       dotsContainer.querySelectorAll('button').forEach(function (d, i) {
         d.style.background = i === idx ? 'var(--gold)' : 'var(--border)';
         d.style.transform = i === idx ? 'scale(1.3)' : 'scale(1)';
       });
     }, { passive: true });
+
+    function scrollByOneCard(direction) {
+      const cardW = cards[0].offsetWidth + 24;
+      const isRtl = document.documentElement.dir === 'rtl';
+      const amount = isRtl ? -direction * cardW : direction * cardW;
+      reviewsTrack.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
+    if (reviewsNextBtn) {
+      reviewsNextBtn.addEventListener('click', function () { scrollByOneCard(1); });
+    }
+    if (reviewsPrevBtn) {
+      reviewsPrevBtn.addEventListener('click', function () { scrollByOneCard(-1); });
+    }
   }
 
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
@@ -425,4 +508,49 @@
   });
 
   applyLang();
+  setWhatsappGreeting();
+
+  (function devtoolsGuard() {
+    const consoleStyle1 = 'color:#C9A84C;font-size:20px;font-weight:900;font-family:sans-serif;padding:6px 0;';
+    const consoleStyle2 = 'color:#888;font-size:13px;font-family:sans-serif;';
+    console.log('%c✨ Casastar Relaxation ✨', consoleStyle1);
+    console.log('%cThis website was crafted with care by Ayman El Mjaber Developer ✨', consoleStyle2);
+    console.log('%c🚫 This area is reserved for development purposes. Please go back to enjoying the site! 🚫', consoleStyle2);
+
+    document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+    document.addEventListener('keydown', function (e) {
+      const k = e.key;
+      const blocked =
+        k === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (k === 'I' || k === 'i' || k === 'J' || k === 'j' || k === 'C' || k === 'c')) ||
+        (e.ctrlKey && (k === 'U' || k === 'u'));
+      if (blocked) e.preventDefault();
+    });
+
+    const devtoolsOverlay = document.createElement('div');
+    devtoolsOverlay.id = 'devtoolsOverlay';
+    devtoolsOverlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#080808;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem;';
+    devtoolsOverlay.innerHTML =
+      '<div style="font-size:3rem;margin-bottom:1rem;">✨</div>' +
+      '<div style="color:#F5F0E8;font-family:\'Cairo\',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:0.6rem;">كازا ستار للإسترخاء</div>' +
+      '<div style="color:#C9A84C;font-family:\'Cairo\',sans-serif;font-size:1rem;font-weight:700;margin-bottom:1rem;">صُمم هذا الموقع بعناية من قِبل Ayman El Mjaber Developer ✨</div>' +
+      '<div style="color:#888;font-family:sans-serif;font-size:0.85rem;max-width:400px;">For security reasons, developer tools are disabled on this page. Thank you for visiting Casastar 💈</div>';
+    document.body.appendChild(devtoolsOverlay);
+
+    let detected = false;
+    function showOverlay() {
+      if (detected) return;
+      detected = true;
+      devtoolsOverlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    const threshold = 160;
+    setInterval(function () {
+      const widthGap = window.outerWidth - window.innerWidth > threshold;
+      const heightGap = window.outerHeight - window.innerHeight > threshold;
+      if (widthGap || heightGap) showOverlay();
+    }, 1000);
+  })();
 })();
