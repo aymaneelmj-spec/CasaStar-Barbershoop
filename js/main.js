@@ -6,6 +6,9 @@
   let selectedService = null;
   let selectedServiceName = '';
   let selectedServicePrice = '';
+  let selectedDate = '';
+  let selectedTime = '';
+  let selectedClientName = '';
 
   const chatFlow = {
     massage: {
@@ -71,8 +74,8 @@
   }
 
   function setWhatsappGreeting() {
-    const greetAr = 'مرحباً كازا ستار للإسترخاء، أرغب في حجز موعد:\n- الخدمة المطلوبة: \n- الوقت المفضل: \n- الاسم: ';
-    const greetEn = "Hello Casastar Relaxation, I'd like to book an appointment:\n- Service wanted: \n- Preferred time: \n- Name: ";
+    const greetAr = '✨ مرحباً *كازا ستار للإسترخاء* 💈\nأرغب في حجز موعد:\n- *الخدمة المطلوبة:* \n- *الوقت المفضل:* \n- *الاسم:* ';
+    const greetEn = "✨ Hello *Casastar Relaxation* 💈\nI'd like to book an appointment:\n- *Service wanted:* \n- *Preferred time:* \n- *Name:* ";
     const greeting = currentLang === 'ar' ? greetAr : greetEn;
     const url = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(greeting);
 
@@ -330,51 +333,131 @@
 
       wrap.remove();
       addUserMsg(name);
+      selectedClientName = name;
 
       const t3 = addTyping();
-      await delay(1000);
+      await delay(800);
       t3.remove();
 
       addBotMsg(
-        'شكراً ' + name + '! جاري إرسال طلب الحجز إلى واتساب...',
-        'Thank you ' + name + '! Sending your booking request to WhatsApp...'
+        'رائع ' + name + '! ما هو التاريخ والوقت المفضل لموعدك؟',
+        'Great ' + name + '! What date and time would you prefer for your appointment?'
       );
 
-      await delay(700);
-
-      const priceLabel = currentLang === 'ar' ? 'ريال' : 'SAR';
-
-      let msgAr = '*كازا ستار للإسترخاء*\n';
-      msgAr += '_طلب حجز موعد جديد_\n';
-      msgAr += '----------------------\n';
-      msgAr += '*الاسم:* ' + name + '\n';
-      msgAr += '*الخدمة:* ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
-      msgAr += '*السعر:* ' + selectedServicePrice + ' ريال سعودي\n';
-      msgAr += '----------------------\n';
-      msgAr += 'أرجو تأكيد الموعد المتاح، شكراً لكم';
-
-      let msgEn = '*Casastar Relaxation*\n';
-      msgEn += '_New Booking Request_\n';
-      msgEn += '----------------------\n';
-      msgEn += '*Name:* ' + name + '\n';
-      msgEn += '*Service:* ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
-      msgEn += '*Price:* ' + selectedServicePrice + ' SAR\n';
-      msgEn += '----------------------\n';
-      msgEn += 'Please confirm the available time, thank you';
-
-      const finalMsg = currentLang === 'ar' ? msgAr : msgEn;
-      const encoded = encodeURIComponent(finalMsg);
-      const waUrl = 'https://wa.me/' + PHONE + '?text=' + encoded;
-
-      setTimeout(function () {
-        window.open(waUrl, '_blank', 'noopener,noreferrer');
-      }, 600);
+      await delay(300);
+      addDateTimeInput();
     }
 
     send.addEventListener('click', submitName);
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') submitName();
     });
+  }
+
+  function addDateTimeInput() {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;flex-direction:column;gap:0.5rem;margin-top:0.3rem;';
+
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:0.5rem;';
+
+    const dateInput = document.createElement('input');
+    dateInput.type = 'date';
+    const today = new Date();
+    dateInput.min = today.toISOString().split('T')[0];
+    dateInput.style.cssText = 'flex:1;padding:0.5rem 0.7rem;background:var(--card);border:1.5px solid var(--border);border-radius:100px;color:var(--cream);font-family:inherit;font-size:0.8rem;outline:none;transition:border-color 0.3s;color-scheme:dark;';
+    dateInput.addEventListener('focus', () => dateInput.style.borderColor = 'var(--gold)');
+    dateInput.addEventListener('blur', () => dateInput.style.borderColor = 'var(--border)');
+
+    const timeInput = document.createElement('input');
+    timeInput.type = 'time';
+    timeInput.style.cssText = 'flex:1;padding:0.5rem 0.7rem;background:var(--card);border:1.5px solid var(--border);border-radius:100px;color:var(--cream);font-family:inherit;font-size:0.8rem;outline:none;transition:border-color 0.3s;color-scheme:dark;';
+    timeInput.addEventListener('focus', () => timeInput.style.borderColor = 'var(--gold)');
+    timeInput.addEventListener('blur', () => timeInput.style.borderColor = 'var(--border)');
+
+    row.appendChild(dateInput);
+    row.appendChild(timeInput);
+
+    const send = document.createElement('button');
+    send.textContent = currentLang === 'ar' ? 'تأكيد الحجز وإرسال إلى واتساب' : 'Confirm Booking & Send to WhatsApp';
+    send.style.cssText = 'padding:0.6rem 1rem;background:var(--gold);color:var(--black);border-radius:100px;font-size:0.82rem;font-weight:800;font-family:inherit;border:none;cursor:pointer;';
+
+    wrap.appendChild(row);
+    wrap.appendChild(send);
+    chatBody.appendChild(wrap);
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    async function submitDateTime() {
+      const dateVal = dateInput.value;
+      const timeVal = timeInput.value;
+
+      if (!dateVal) { dateInput.style.borderColor = 'red'; return; }
+      if (!timeVal) { timeInput.style.borderColor = 'red'; return; }
+
+      const dateObj = new Date(dateVal + 'T00:00:00');
+      const formattedDate = dateObj.toLocaleDateString(currentLang === 'ar' ? 'ar-SA' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      const formattedTime = (function () {
+        const [h, m] = timeVal.split(':');
+        const hour = parseInt(h, 10);
+        const period = currentLang === 'ar' ? (hour >= 12 ? 'مساءً' : 'صباحاً') : (hour >= 12 ? 'PM' : 'AM');
+        const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+        return hour12 + ':' + m + ' ' + period;
+      })();
+
+      selectedDate = formattedDate;
+      selectedTime = formattedTime;
+
+      wrap.remove();
+      addUserMsg(formattedDate + ' — ' + formattedTime);
+
+      const t4 = addTyping();
+      await delay(1000);
+      t4.remove();
+
+      addBotMsg(
+        'تم! جاري إرسال طلب الحجز الكامل إلى واتساب...',
+        'Done! Sending your complete booking request to WhatsApp...'
+      );
+
+      await delay(700);
+      sendBookingToWhatsapp();
+    }
+
+    send.addEventListener('click', submitDateTime);
+  }
+
+  function sendBookingToWhatsapp() {
+    const name = selectedClientName || '';
+
+    let msgAr = '✨ *كازا ستار للإسترخاء* 💈\n';
+    msgAr += '_طلب حجز موعد جديد_\n';
+    msgAr += '----------------------\n';
+    msgAr += '👤 *الاسم:* ' + name + '\n';
+    msgAr += '✂ *الخدمة:* ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
+    msgAr += '💰 *السعر:* ' + selectedServicePrice + ' ريال سعودي\n';
+    msgAr += '📅 *التاريخ:* ' + selectedDate + '\n';
+    msgAr += '⏰ *الوقت:* ' + selectedTime + '\n';
+    msgAr += '----------------------\n';
+    msgAr += '🙏 أرجو تأكيد الموعد، شكراً لكم';
+
+    let msgEn = '✨ *Casastar Relaxation* 💈\n';
+    msgEn += '_New Booking Request_\n';
+    msgEn += '----------------------\n';
+    msgEn += '👤 *Name:* ' + name + '\n';
+    msgEn += '✂ *Service:* ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
+    msgEn += '💰 *Price:* ' + selectedServicePrice + ' SAR\n';
+    msgEn += '📅 *Date:* ' + selectedDate + '\n';
+    msgEn += '⏰ *Time:* ' + selectedTime + '\n';
+    msgEn += '----------------------\n';
+    msgEn += '🙏 Please confirm the appointment, thank you';
+
+    const finalMsg = currentLang === 'ar' ? msgAr : msgEn;
+    const encoded = encodeURIComponent(finalMsg);
+    const waUrl = 'https://wa.me/' + PHONE + '?text=' + encoded;
+
+    setTimeout(function () {
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    }, 600);
   }
 
   document.querySelectorAll('.btn-book-service').forEach(function (btn) {
@@ -417,6 +500,9 @@
     selectedService = null;
     selectedServiceName = '';
     selectedServicePrice = '';
+    selectedDate = '';
+    selectedTime = '';
+    selectedClientName = '';
     chatBody.innerHTML = '';
 
     addBotMsg(
