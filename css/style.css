@@ -1786,6 +1786,11 @@ footer {
   border: 1.5px solid var(--border);
   color: var(--cream);
   background: var(--card);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  box-sizing: border-box;
 }
 
 .social-btn:hover {

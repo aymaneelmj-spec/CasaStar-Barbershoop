@@ -1113,9 +1113,9 @@
   function buildPaymentWhatsappMsg(method) {
     var svcAr   = selectedService ? selectedService.ar : selectedServiceName;
     var svcEn   = selectedService ? selectedService.en : selectedServiceName;
-    var price   = selectedServicePrice || '—';
-    var name    = selectedClientName || '—';
-    var dt      = (selectedDate && selectedTime) ? (selectedDate + ' — ' + selectedTime) : '—';
+    var price   = selectedServicePrice || '\u2014';
+    var name    = selectedClientName || '\u2014';
+    var dt      = (selectedDate && selectedTime) ? (selectedDate + ' \u2014 ' + selectedTime) : '\u2014';
     var methodKey = selectedPayMethod || method;
     var DIVIDER = '--------------';
 
