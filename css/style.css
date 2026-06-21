@@ -1046,6 +1046,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .gallery-item[hidden] { display: none; }
+.gallery-item-missing { display: none; }
 
 .lightbox-overlay {
   position: fixed;
@@ -1371,6 +1372,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: var(--gold);
   font-weight: 700;
   transition: opacity var(--transition);
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .contact-link:hover { opacity: 0.75; }
@@ -1408,13 +1414,20 @@ footer {
   justify-content: center;
 }
 
-.footer-links a {
+.footer-links a,
+.footer-links button {
   font-size: 0.8rem;
   color: var(--muted);
   transition: color var(--transition);
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
 }
 
-.footer-links a:hover { color: var(--gold); }
+.footer-links a:hover,
+.footer-links button:hover { color: var(--gold); }
 
 .footer-copy {
   font-size: 0.75rem;
@@ -1429,6 +1442,7 @@ footer {
   width: 56px;
   height: 56px;
   background: #25D366;
+  border: none;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1436,6 +1450,8 @@ footer {
   z-index: 900;
   box-shadow: 0 4px 20px rgba(37,211,102,0.4);
   transition: transform var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+  padding: 0;
 }
 
 .whatsapp-float:hover {
@@ -1505,14 +1521,23 @@ footer {
   align-items: center;
   gap: 0.8rem;
   padding: 1rem 1.2rem;
-  background: #25D366;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
   flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+.chat-header.platform-whatsapp {
+  background: #25D366;
+}
+
+.chat-header.platform-tiktok {
+  background: linear-gradient(135deg, #25F4EE, #69C9D0);
 }
 
 .chat-avatar {
   width: 40px;
   height: 40px;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.25);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1533,17 +1558,27 @@ footer {
   display: block;
   font-size: 0.95rem;
   font-weight: 800;
+  color: var(--black);
+}
+
+.chat-header.platform-whatsapp .chat-header-info strong,
+.chat-header.platform-tiktok .chat-header-info strong {
   color: white;
 }
 
 .chat-online {
   font-size: 0.75rem;
+  color: rgba(0,0,0,0.65);
+}
+
+.chat-header.platform-whatsapp .chat-online,
+.chat-header.platform-tiktok .chat-online {
   color: rgba(255,255,255,0.85);
 }
 
 .chat-close {
-  background: rgba(255,255,255,0.2);
-  color: white;
+  background: rgba(0,0,0,0.15);
+  color: var(--black);
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -1554,7 +1589,15 @@ footer {
   transition: background var(--transition);
 }
 
-.chat-close:hover { background: rgba(255,255,255,0.35); }
+.chat-header.platform-whatsapp .chat-close,
+.chat-header.platform-tiktok .chat-close {
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+.chat-close:hover { background: rgba(0,0,0,0.25); }
+.chat-header.platform-whatsapp .chat-close:hover,
+.chat-header.platform-tiktok .chat-close:hover { background: rgba(255,255,255,0.35); }
 
 .chat-body {
   flex: 1;
