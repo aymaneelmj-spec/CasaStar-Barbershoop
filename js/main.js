@@ -952,8 +952,8 @@
   // ============================================================
   // PAYMENT MODAL
   // ============================================================
-  // 🔧 IBAN CONFIG —
-  var OWNER_IBAN = 'SA9110000001400020838808'; // <--  REAL IBAN
+  // 🔧 IBAN CONFIG — replace the value below when you receive the IBAN
+  var OWNER_IBAN = 'SA9110000001400020838808';
 
   var paymentOverlay = document.getElementById('paymentOverlay');
   var paymentClose  = document.getElementById('paymentClose');
@@ -1117,39 +1117,40 @@
     var name    = selectedClientName || '—';
     var dt      = (selectedDate && selectedTime) ? (selectedDate + ' — ' + selectedTime) : '—';
     var methodKey = selectedPayMethod || method;
+    var DIVIDER = '——————————————';
 
     if(currentLang === 'ar') {
       var methodLabel = methodKey === 'bank' ? '🏦 تحويل بنكي — البنك الأهلي' :
                         methodKey === 'stc'  ? '📱 STC Pay' :
                         methodKey === 'mada' ? '💳 مدى / Mada' : '💳 بطاقة';
-      return '✨ *كازا ستار للإسترخاء* 💈\n' +
-        '_تأكيد حجز وإشعار دفع_\n' +
-        '━━━━━━━━━━━━━━━━━━━━\n' +
-        '👤 *الاسم:* ' + name + '\n' +
-        '✂ *الخدمة:* ' + svcAr + '\n' +
+      return '*كازا ستار للإسترخاء* ✂️\n' +
+        'تأكيد حجز وإشعار دفع\n' +
+        DIVIDER + '\n' +
+        '🙋 *الاسم:* ' + name + '\n' +
+        '💈 *الخدمة:* ' + svcAr + '\n' +
         '💰 *المبلغ:* ' + price + ' ريال\n' +
         '📅 *الموعد:* ' + dt + '\n' +
         '💳 *طريقة الدفع:* ' + methodLabel + '\n' +
-        (methodKey === 'bank' ? '🔢 *IBAN المُحوَّل إليه:* ' + OWNER_IBAN + '\n' : '') +
+        (methodKey === 'bank' ? '🏧 *IBAN المُحوَّل إليه:* ' + OWNER_IBAN + '\n' : '') +
         (methodKey === 'stc' || methodKey === 'mada' ? '📱 *رقم التحويل:* +966549785075\n' : '') +
-        '━━━━━━━━━━━━━━━━━━━━\n' +
-        '📎 سيتم إرفاق صورة الإيصال\n';
+        DIVIDER + '\n' +
+        '📷 سيتم إرفاق صورة الإيصال';
     } else {
       var mLabel = methodKey === 'bank' ? '🏦 Bank Transfer — Al Ahli' :
                    methodKey === 'stc'  ? '📱 STC Pay' :
                    methodKey === 'mada' ? '💳 Mada Card' : '💳 Card';
-      return '✨ *Casastar Relaxation* 💈\n' +
-        '_Booking & Payment Notification_\n' +
-        '━━━━━━━━━━━━━━━━━━━━\n' +
-        '👤 *Name:* ' + name + '\n' +
-        '✂ *Service:* ' + svcEn + '\n' +
+      return '*Casastar Relaxation* ✂️\n' +
+        'Booking & Payment Notification\n' +
+        DIVIDER + '\n' +
+        '🙋 *Name:* ' + name + '\n' +
+        '💈 *Service:* ' + svcEn + '\n' +
         '💰 *Amount:* ' + price + ' SAR\n' +
         '📅 *Appointment:* ' + dt + '\n' +
         '💳 *Payment Method:* ' + mLabel + '\n' +
-        (methodKey === 'bank' ? '🔢 *IBAN Used:* ' + OWNER_IBAN + '\n' : '') +
+        (methodKey === 'bank' ? '🏧 *IBAN Used:* ' + OWNER_IBAN + '\n' : '') +
         (methodKey === 'stc' || methodKey === 'mada' ? '📱 *Transfer Number:* +966549785075\n' : '') +
-        '━━━━━━━━━━━━━━━━━━━━\n' +
-        '📎 Receipt screenshot will be attached\n';
+        DIVIDER + '\n' +
+        '📷 Receipt screenshot will be attached';
     }
   }
 
