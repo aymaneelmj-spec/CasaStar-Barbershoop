@@ -564,7 +564,7 @@
   function sendBookingToWhatsapp() {
     const name = selectedClientName || '';
 
-    let msgAr = '✂️ *كازا ستار للإسترخاء*' + '\n';
+    let msgAr = ''✂️' *كازا ستار للإسترخاء*' + '\n';
     msgAr += '================================' + '\n';
     msgAr += '✨ *طلب حجز موعد*' + '\n';
     msgAr += '================================' + '\n';
