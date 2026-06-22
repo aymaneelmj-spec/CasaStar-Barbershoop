@@ -16,7 +16,7 @@
     }
     window.addEventListener('load', function() {
       // delay so it starts smoothly with the loaded page
-      setTimeout(playOnce, 2500);
+      setTimeout(playOnce, 1000);
     });
     // Fallback: first user interaction unlocks autoplay on mobile
     ['touchstart','click','keydown'].forEach(function(evt) {
@@ -564,27 +564,29 @@
   function sendBookingToWhatsapp() {
     const name = selectedClientName || '';
 
-    let msgAr = '\u2728 *كازا ستار للإسترخاء* \uD83D\uDC88\n';
-    msgAr += '_طلب حجز موعد جديد_\n';
-    msgAr += '----------------------\n';
-    msgAr += '\uD83D\uDC64 *الاسم:* ' + name + '\n';
-    msgAr += '\u2702 *الخدمة:* ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
-    msgAr += '\uD83D\uDCB0 *السعر:* ' + selectedServicePrice + ' ريال سعودي\n';
-    msgAr += '\uD83D\uDCC5 *التاريخ:* ' + selectedDate + '\n';
-    msgAr += '\u23F0 *الوقت:* ' + selectedTime + '\n';
-    msgAr += '----------------------\n';
-    msgAr += '\uD83D\uDE4F أرجو تأكيد الموعد، شكراً لكم';
+    let msgAr = '💈 *كازا ستار للإسترخاء* ✂️\n';
+    msgAr += '━━━━━━━━━━━━━━━━━━━━\n';
+    msgAr += '📋 *طلب حجز موعد جديد* ✨\n';
+    msgAr += '━━━━━━━━━━━━━━━━━━━━\n';
+    msgAr += '👤 *الاسم:* ' + name + '\n';
+    msgAr += '✂️ *الخدمة:* ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
+    msgAr += '💰 *السعر:* ' + selectedServicePrice + ' ريال سعودي\n';
+    msgAr += '📅 *التاريخ:* ' + selectedDate + '\n';
+    msgAr += '⏰ *الوقت:* ' + selectedTime + '\n';
+    msgAr += '━━━━━━━━━━━━━━━━━━━━\n';
+    msgAr += '🙏 أرجو تأكيد الموعد — شكراً لكم! 😊';
 
-    let msgEn = '\u2728 *Casastar Relaxation* \uD83D\uDC88\n';
-    msgEn += '_New Booking Request_\n';
-    msgEn += '----------------------\n';
-    msgEn += '\uD83D\uDC64 *Name:* ' + name + '\n';
-    msgEn += '\u2702 *Service:* ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
-    msgEn += '\uD83D\uDCB0 *Price:* ' + selectedServicePrice + ' SAR\n';
-    msgEn += '\uD83D\uDCC5 *Date:* ' + selectedDate + '\n';
-    msgEn += '\u23F0 *Time:* ' + selectedTime + '\n';
-    msgEn += '----------------------\n';
-    msgEn += '\uD83D\uDE4F Please confirm the appointment, thank you';
+    let msgEn = '💈 *Casastar Relaxation* ✂️\n';
+    msgEn += '━━━━━━━━━━━━━━━━━━━━\n';
+    msgEn += '📋 *New Booking Request* ✨\n';
+    msgEn += '━━━━━━━━━━━━━━━━━━━━\n';
+    msgEn += '👤 *Name:* ' + name + '\n';
+    msgEn += '✂️ *Service:* ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
+    msgEn += '💰 *Price:* ' + selectedServicePrice + ' SAR\n';
+    msgEn += '📅 *Date:* ' + selectedDate + '\n';
+    msgEn += '⏰ *Time:* ' + selectedTime + '\n';
+    msgEn += '━━━━━━━━━━━━━━━━━━━━\n';
+    msgEn += '🙏 Please confirm the appointment — thank you! 😊';
 
     const finalMsg = currentLang === 'ar' ? msgAr : msgEn;
     const encoded = encodeURIComponent(finalMsg);
@@ -1113,46 +1115,49 @@
   function buildPaymentWhatsappMsg(method) {
     var svcAr   = selectedService ? selectedService.ar : selectedServiceName;
     var svcEn   = selectedService ? selectedService.en : selectedServiceName;
-    var price   = selectedServicePrice || '\u2014';
-    var name    = selectedClientName || '\u2014';
-    var dt      = (selectedDate && selectedTime) ? (selectedDate + ' \u2014 ' + selectedTime) : '\u2014';
+    var price   = selectedServicePrice || '—';
+    var name    = selectedClientName || '—';
+    var dt      = (selectedDate && selectedTime) ? (selectedDate + ' — ' + selectedTime) : '—';
     var methodKey = selectedPayMethod || method;
-    var DIVIDER = '--------------';
+    var DIVIDER = '━━━━━━━━━━━━━━━━━━━━';
 
     if(currentLang === 'ar') {
-      var methodLabel = methodKey === 'bank' ? '\uD83C\uDFE6 تحويل بنكي \u2014 البنك الأهلي' :
-                        methodKey === 'stc'  ? '\uD83D\uDCF1 STC Pay' :
-                        methodKey === 'mada' ? '\uD83D\uDCB3 مدى / Mada' : '\uD83D\uDCB3 بطاقة';
-      return '*كازا ستار للإسترخاء* \u2702\uFE0F\n' +
-        'تأكيد حجز وإشعار دفع\n' +
+      var methodLabel = methodKey === 'bank' ? '🏦 تحويل بنكي — البنك الأهلي' :
+                        methodKey === 'stc'  ? '📱 STC Pay' :
+                        methodKey === 'mada' ? '💳 مدى / Mada' : '💳 بطاقة';
+      return '💈 *كازا ستار للإسترخاء* ✂️\n' +
         DIVIDER + '\n' +
-        '\uD83D\uDE4B *الاسم:* ' + name + '\n' +
-        '\uD83D\uDC88 *الخدمة:* ' + svcAr + '\n' +
-        '\uD83D\uDCB0 *المبلغ:* ' + price + ' ريال\n' +
-        '\uD83D\uDCC5 *الموعد:* ' + dt + '\n' +
-        '\uD83D\uDCB3 *طريقة الدفع:* ' + methodLabel + '\n' +
-        (methodKey === 'bank' ? '\uD83C\uDFE7 *IBAN المُحوَّل إليه:* ' + OWNER_IBAN + '\n' : '') +
-        (methodKey === 'stc' || methodKey === 'mada' ? '\uD83D\uDCF1 *رقم التحويل:* +966549785075\n' : '') +
+        '💸 *تأكيد حجز وإشعار دفع* ✅\n' +
         DIVIDER + '\n' +
-        '\uD83D\uDCF7 سيتم إرفاق صورة الإيصال';
+        '👤 *الاسم:* ' + name + '\n' +
+        '✂️ *الخدمة:* ' + svcAr + '\n' +
+        '💰 *المبلغ:* ' + price + ' ريال\n' +
+        '📅 *الموعد:* ' + dt + '\n' +
+        '💳 *طريقة الدفع:* ' + methodLabel + '\n' +
+        (methodKey === 'bank' ? '🏧 *IBAN المُحوَّل إليه:* ' + OWNER_IBAN + '\n' : '') +
+        (methodKey === 'stc' || methodKey === 'mada' ? '📱 *رقم التحويل:* +966549785075\n' : '') +
+        DIVIDER + '\n' +
+        '📸 سيتم إرفاق صورة الإيصال — شكراً لكم! 🙏';
     } else {
-      var mLabel = methodKey === 'bank' ? '\uD83C\uDFE6 Bank Transfer \u2014 Al Ahli' :
-                   methodKey === 'stc'  ? '\uD83D\uDCF1 STC Pay' :
-                   methodKey === 'mada' ? '\uD83D\uDCB3 Mada Card' : '\uD83D\uDCB3 Card';
-      return '*Casastar Relaxation* \u2702\uFE0F\n' +
-        'Booking & Payment Notification\n' +
+      var mLabel = methodKey === 'bank' ? '🏦 Bank Transfer — Al Ahli' :
+                   methodKey === 'stc'  ? '📱 STC Pay' :
+                   methodKey === 'mada' ? '💳 Mada Card' : '💳 Card';
+      return '💈 *Casastar Relaxation* ✂️\n' +
         DIVIDER + '\n' +
-        '\uD83D\uDE4B *Name:* ' + name + '\n' +
-        '\uD83D\uDC88 *Service:* ' + svcEn + '\n' +
-        '\uD83D\uDCB0 *Amount:* ' + price + ' SAR\n' +
-        '\uD83D\uDCC5 *Appointment:* ' + dt + '\n' +
-        '\uD83D\uDCB3 *Payment Method:* ' + mLabel + '\n' +
-        (methodKey === 'bank' ? '\uD83C\uDFE7 *IBAN Used:* ' + OWNER_IBAN + '\n' : '') +
-        (methodKey === 'stc' || methodKey === 'mada' ? '\uD83D\uDCF1 *Transfer Number:* +966549785075\n' : '') +
+        '💸 *Booking & Payment Notification* ✅\n' +
         DIVIDER + '\n' +
-        '\uD83D\uDCF7 Receipt screenshot will be attached';
+        '👤 *Name:* ' + name + '\n' +
+        '✂️ *Service:* ' + svcEn + '\n' +
+        '💰 *Amount:* ' + price + ' SAR\n' +
+        '📅 *Appointment:* ' + dt + '\n' +
+        '💳 *Payment Method:* ' + mLabel + '\n' +
+        (methodKey === 'bank' ? '🏧 *IBAN Used:* ' + OWNER_IBAN + '\n' : '') +
+        (methodKey === 'stc' || methodKey === 'mada' ? '📱 *Transfer Number:* +966549785075\n' : '') +
+        DIVIDER + '\n' +
+        '📸 Receipt screenshot will be attached — thank you! 🙏';
     }
   }
+
 
   function sendPaymentWhatsapp(method) {
     if (selectedPlatform === 'tiktok') {
