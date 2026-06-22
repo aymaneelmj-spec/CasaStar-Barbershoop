@@ -564,29 +564,29 @@
   function sendBookingToWhatsapp() {
     const name = selectedClientName || '';
 
-    let msgAr = '💈 *كازا ستار للإسترخاء* ✂️\n';
-    msgAr += '━━━━━━━━━━━━━━━━━━━━\n';
-    msgAr += '📋 *طلب حجز موعد جديد* ✨\n';
-    msgAr += '━━━━━━━━━━━━━━━━━━━━\n';
-    msgAr += '👤 *الاسم:* ' + name + '\n';
-    msgAr += '✂️ *الخدمة:* ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
-    msgAr += '💰 *السعر:* ' + selectedServicePrice + ' ريال سعودي\n';
-    msgAr += '📅 *التاريخ:* ' + selectedDate + '\n';
-    msgAr += '⏰ *الوقت:* ' + selectedTime + '\n';
-    msgAr += '━━━━━━━━━━━━━━━━━━━━\n';
-    msgAr += '🙏 أرجو تأكيد الموعد — شكراً لكم! 😊';
+    let msgAr = '\uD83D\uDC88 *\u0643\u0627\u0632\u0627 \u0633\u062A\u0627\u0631 \u0644\u0644\u0625\u0633\u062A\u0631\u062E\u0627\u0621* \u2702\uFE0F\n';
+    msgAr += '--------------------------------\n';
+    msgAr += '\uD83D\uDCCB *\u0637\u0644\u0628 \u062D\u062C\u0632 \u0645\u0648\u0639\u062F \u062C\u062F\u064A\u062F* \u2728\n';
+    msgAr += '--------------------------------\n';
+    msgAr += '\uD83D\uDC64 *\u0627\u0644\u0627\u0633\u0645:* ' + name + '\n';
+    msgAr += '\u2702\uFE0F *\u0627\u0644\u062E\u062F\u0645\u0629:* ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
+    msgAr += '\uD83D\uDCB0 *\u0627\u0644\u0633\u0639\u0631:* ' + selectedServicePrice + ' \u0631\u064A\u0627\u0644 \u0633\u0639\u0648\u062F\u064A\n';
+    msgAr += '\uD83D\uDCC5 *\u0627\u0644\u062A\u0627\u0631\u064A\u062E:* ' + selectedDate + '\n';
+    msgAr += '\u23F0 *\u0627\u0644\u0648\u0642\u062A:* ' + selectedTime + '\n';
+    msgAr += '--------------------------------\n';
+    msgAr += '\uD83D\uDE4F \u0623\u0631\u062C\u0648 \u062A\u0623\u0643\u064A\u062F \u0627\u0644\u0645\u0648\u0639\u062F \u2014 \u0634\u0643\u0631\u0627\u064B \u0644\u0643\u0645! \uD83D\uDE0A';
 
-    let msgEn = '💈 *Casastar Relaxation* ✂️\n';
-    msgEn += '━━━━━━━━━━━━━━━━━━━━\n';
-    msgEn += '📋 *New Booking Request* ✨\n';
-    msgEn += '━━━━━━━━━━━━━━━━━━━━\n';
-    msgEn += '👤 *Name:* ' + name + '\n';
-    msgEn += '✂️ *Service:* ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
-    msgEn += '💰 *Price:* ' + selectedServicePrice + ' SAR\n';
-    msgEn += '📅 *Date:* ' + selectedDate + '\n';
-    msgEn += '⏰ *Time:* ' + selectedTime + '\n';
-    msgEn += '━━━━━━━━━━━━━━━━━━━━\n';
-    msgEn += '🙏 Please confirm the appointment — thank you! 😊';
+    let msgEn = '\uD83D\uDC88 *Casastar Relaxation* \u2702\uFE0F\n';
+    msgEn += '--------------------------------\n';
+    msgEn += '\uD83D\uDCCB *New Booking Request* \u2728\n';
+    msgEn += '--------------------------------\n';
+    msgEn += '\uD83D\uDC64 *Name:* ' + name + '\n';
+    msgEn += '\u2702\uFE0F *Service:* ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
+    msgEn += '\uD83D\uDCB0 *Price:* ' + selectedServicePrice + ' SAR\n';
+    msgEn += '\uD83D\uDCC5 *Date:* ' + selectedDate + '\n';
+    msgEn += '\u23F0 *Time:* ' + selectedTime + '\n';
+    msgEn += '--------------------------------\n';
+    msgEn += '\uD83D\uDE4F Please confirm the appointment \u2014 thank you! \uD83D\uDE0A';
 
     const finalMsg = currentLang === 'ar' ? msgAr : msgEn;
     const encoded = encodeURIComponent(finalMsg);
@@ -1115,46 +1115,46 @@
   function buildPaymentWhatsappMsg(method) {
     var svcAr   = selectedService ? selectedService.ar : selectedServiceName;
     var svcEn   = selectedService ? selectedService.en : selectedServiceName;
-    var price   = selectedServicePrice || '—';
-    var name    = selectedClientName || '—';
-    var dt      = (selectedDate && selectedTime) ? (selectedDate + ' — ' + selectedTime) : '—';
+    var price   = selectedServicePrice || '-';
+    var name    = selectedClientName || '-';
+    var dt      = (selectedDate && selectedTime) ? (selectedDate + ' \u2014 ' + selectedTime) : '-';
     var methodKey = selectedPayMethod || method;
-    var DIVIDER = '━━━━━━━━━━━━━━━━━━━━';
+    var DIVIDER = '--------------------------------';
 
     if(currentLang === 'ar') {
-      var methodLabel = methodKey === 'bank' ? '🏦 تحويل بنكي — البنك الأهلي' :
-                        methodKey === 'stc'  ? '📱 STC Pay' :
-                        methodKey === 'mada' ? '💳 مدى / Mada' : '💳 بطاقة';
-      return '💈 *كازا ستار للإسترخاء* ✂️\n' +
+      var methodLabel = methodKey === 'bank' ? '\uD83C\uDFE6 \u062A\u062D\u0648\u064A\u0644 \u0628\u0646\u0643\u064A \u2014 \u0627\u0644\u0628\u0646\u0643 \u0627\u0644\u0623\u0647\u0644\u064A' :
+                        methodKey === 'stc'  ? '\uD83D\uDCF1 STC Pay' :
+                        methodKey === 'mada' ? '\uD83D\uDCB3 \u0645\u062F\u0649 / Mada' : '\uD83D\uDCB3 \u0628\u0637\u0627\u0642\u0629';
+      return '\uD83D\uDC88 *\u0643\u0627\u0632\u0627 \u0633\u062A\u0627\u0631 \u0644\u0644\u0625\u0633\u062A\u0631\u062E\u0627\u0621* \u2702\uFE0F\n' +
         DIVIDER + '\n' +
-        '💸 *تأكيد حجز وإشعار دفع* ✅\n' +
+        '\uD83D\uDCB8 *\u062A\u0623\u0643\u064A\u062F \u062D\u062C\u0632 \u0648\u0625\u0634\u0639\u0627\u0631 \u062F\u0641\u0639* \u2705\n' +
         DIVIDER + '\n' +
-        '👤 *الاسم:* ' + name + '\n' +
-        '✂️ *الخدمة:* ' + svcAr + '\n' +
-        '💰 *المبلغ:* ' + price + ' ريال\n' +
-        '📅 *الموعد:* ' + dt + '\n' +
-        '💳 *طريقة الدفع:* ' + methodLabel + '\n' +
-        (methodKey === 'bank' ? '🏧 *IBAN المُحوَّل إليه:* ' + OWNER_IBAN + '\n' : '') +
-        (methodKey === 'stc' || methodKey === 'mada' ? '📱 *رقم التحويل:* +966549785075\n' : '') +
+        '\uD83D\uDC64 *\u0627\u0644\u0627\u0633\u0645:* ' + name + '\n' +
+        '\u2702\uFE0F *\u0627\u0644\u062E\u062F\u0645\u0629:* ' + svcAr + '\n' +
+        '\uD83D\uDCB0 *\u0627\u0644\u0645\u0628\u0644\u063A:* ' + price + ' \u0631\u064A\u0627\u0644\n' +
+        '\uD83D\uDCC5 *\u0627\u0644\u0645\u0648\u0639\u062F:* ' + dt + '\n' +
+        '\uD83D\uDCB3 *\u0637\u0631\u064A\u0642\u0629 \u0627\u0644\u062F\u0641\u0639:* ' + methodLabel + '\n' +
+        (methodKey === 'bank' ? '\uD83C\uDFE7 *IBAN \u0627\u0644\u0645\u064F\u062D\u0648\u064E\u0644 \u0625\u0644\u064A\u0647:* ' + OWNER_IBAN + '\n' : '') +
+        (methodKey === 'stc' || methodKey === 'mada' ? '\uD83D\uDCF1 *\u0631\u0642\u0645 \u0627\u0644\u062A\u062D\u0648\u064A\u0644:* +966549785075\n' : '') +
         DIVIDER + '\n' +
-        '📸 سيتم إرفاق صورة الإيصال — شكراً لكم! 🙏';
+        '\uD83D\uDCF7 \u0633\u064A\u062A\u0645 \u0625\u0631\u0641\u0627\u0642 \u0635\u0648\u0631\u0629 \u0627\u0644\u0625\u064A\u0635\u0627\u0644 \u2014 \u0634\u0643\u0631\u0627\u064B \u0644\u0643\u0645! \uD83D\uDE4F';
     } else {
-      var mLabel = methodKey === 'bank' ? '🏦 Bank Transfer — Al Ahli' :
-                   methodKey === 'stc'  ? '📱 STC Pay' :
-                   methodKey === 'mada' ? '💳 Mada Card' : '💳 Card';
-      return '💈 *Casastar Relaxation* ✂️\n' +
+      var mLabel = methodKey === 'bank' ? '\uD83C\uDFE6 Bank Transfer \u2014 Al Ahli' :
+                   methodKey === 'stc'  ? '\uD83D\uDCF1 STC Pay' :
+                   methodKey === 'mada' ? '\uD83D\uDCB3 Mada Card' : '\uD83D\uDCB3 Card';
+      return '\uD83D\uDC88 *Casastar Relaxation* \u2702\uFE0F\n' +
         DIVIDER + '\n' +
-        '💸 *Booking & Payment Notification* ✅\n' +
+        '\uD83D\uDCB8 *Booking & Payment Notification* \u2705\n' +
         DIVIDER + '\n' +
-        '👤 *Name:* ' + name + '\n' +
-        '✂️ *Service:* ' + svcEn + '\n' +
-        '💰 *Amount:* ' + price + ' SAR\n' +
-        '📅 *Appointment:* ' + dt + '\n' +
-        '💳 *Payment Method:* ' + mLabel + '\n' +
-        (methodKey === 'bank' ? '🏧 *IBAN Used:* ' + OWNER_IBAN + '\n' : '') +
-        (methodKey === 'stc' || methodKey === 'mada' ? '📱 *Transfer Number:* +966549785075\n' : '') +
+        '\uD83D\uDC64 *Name:* ' + name + '\n' +
+        '\u2702\uFE0F *Service:* ' + svcEn + '\n' +
+        '\uD83D\uDCB0 *Amount:* ' + price + ' SAR\n' +
+        '\uD83D\uDCC5 *Appointment:* ' + dt + '\n' +
+        '\uD83D\uDCB3 *Payment Method:* ' + mLabel + '\n' +
+        (methodKey === 'bank' ? '\uD83C\uDFE7 *IBAN Used:* ' + OWNER_IBAN + '\n' : '') +
+        (methodKey === 'stc' || methodKey === 'mada' ? '\uD83D\uDCF1 *Transfer Number:* +966549785075\n' : '') +
         DIVIDER + '\n' +
-        '📸 Receipt screenshot will be attached — thank you! 🙏';
+        '\uD83D\uDCF7 Receipt screenshot will be attached \u2014 thank you! \uD83D\uDE4F';
     }
   }
 
