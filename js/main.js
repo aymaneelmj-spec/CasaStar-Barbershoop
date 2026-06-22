@@ -564,29 +564,29 @@
   function sendBookingToWhatsapp() {
     const name = selectedClientName || '';
 
-    let msgAr = '💈' *كازا ستار للإسترخاء* '✂️' + '\n';
-    msgAr += '--------------------------------' + '\n';
-    msgAr += '📋 *طلب حجز موعد جديد* ✨' + '\n';
-    msgAr += '--------------------------------' + '\n';
-    msgAr += '👤 *الاسم:* ' + name + '\n';
+    let msgAr = '✂️ *كازا ستار للإسترخاء*' + '\n';
+    msgAr += '================================' + '\n';
+    msgAr += '✨ *طلب حجز موعد*' + '\n';
+    msgAr += '================================' + '\n';
+    msgAr += '▶ *الاسم:* ' + name + '\n';
     msgAr += '✂️ *الخدمة:* ' + (selectedService ? selectedService.ar : selectedServiceName) + '\n';
-    msgAr += '💰 *السعر:* ' + selectedServicePrice + ' ريال سعودي' + '\n';
-    msgAr += '📅 *التاريخ:* ' + selectedDate + '\n';
+    msgAr += '★ *السعر:* ' + selectedServicePrice + ' ريال سعودي' + '\n';
+    msgAr += '■ *التاريخ:* ' + selectedDate + '\n';
     msgAr += '⏰ *الوقت:* ' + selectedTime + '\n';
-    msgAr += '--------------------------------' + '\n';
-    msgAr += '🙏 أرجو تأكيد الموعد — شكراً لكم! 😊';
+    msgAr += '================================' + '\n';
+    msgAr += '✅ أرجو تأكيد الموعد — شكراً لكم!';
 
-    let msgEn = '💈 *Casastar Relaxation* ✂️' + '\n';
-    msgEn += '--------------------------------' + '\n';
-    msgEn += '📋 *New Booking Request* ✨' + '\n';
-    msgEn += '--------------------------------' + '\n';
-    msgEn += '👤 *Name:* ' + name + '\n';
+    let msgEn = '✂️ *Casastar Relaxation*' + '\n';
+    msgEn += '================================' + '\n';
+    msgEn += '✨ *New Booking Request*' + '\n';
+    msgEn += '================================' + '\n';
+    msgEn += '▶ *Name:* ' + name + '\n';
     msgEn += '✂️ *Service:* ' + (selectedService ? selectedService.en : selectedServiceName) + '\n';
-    msgEn += '💰 *Price:* ' + selectedServicePrice + ' SAR' + '\n';
-    msgEn += '📅 *Date:* ' + selectedDate + '\n';
+    msgEn += '★ *Price:* ' + selectedServicePrice + ' SAR' + '\n';
+    msgEn += '■ *Date:* ' + selectedDate + '\n';
     msgEn += '⏰ *Time:* ' + selectedTime + '\n';
-    msgEn += '--------------------------------' + '\n';
-    msgEn += '🙏 Please confirm the appointment — thank you! 😊';
+    msgEn += '================================' + '\n';
+    msgEn += '✅ Please confirm the appointment — thank you!';
 
     const finalMsg = currentLang === 'ar' ? msgAr : msgEn;
     const encoded = encodeURIComponent(finalMsg);
@@ -1119,45 +1119,45 @@
     var name    = selectedClientName || '-';
     var dt      = (selectedDate && selectedTime) ? (selectedDate + ' — ' + selectedTime) : '-';
     var methodKey = selectedPayMethod || method;
-    var D = '--------------------------------';
+    var D = '================================';
 
     if (currentLang === 'ar') {
-      var methodLabel = methodKey === 'bank' ? '🏦 تحويل بنكي — البنك الأهلي' :
-                        methodKey === 'stc'  ? '📱 STC Pay' :
-                        methodKey === 'mada' ? '💳 مدى / Mada' : '💳 بطاقة';
+      var methodLabel = methodKey === 'bank' ? '★ تحويل بنكي — البنك الأهلي' :
+                        methodKey === 'stc'  ? '★ STC Pay' :
+                        methodKey === 'mada' ? '★ مدى / Mada' : '★ بطاقة';
       var msg = '';
-      msg += '💈 *كازا ستار للإسترخاء* ✂️' + '\n';
+      msg += '✂️ *كازا ستار للإسترخاء*' + '\n';
       msg += D + '\n';
-      msg += '💸 *تأكيد حجز وإشعار دفع* ✅' + '\n';
+      msg += '✨ *تأكيد حجز وإشعار دفع* ✅' + '\n';
       msg += D + '\n';
-      msg += '👤 *الاسم:* ' + name + '\n';
+      msg += '▶ *الاسم:* ' + name + '\n';
       msg += '✂️ *الخدمة:* ' + svcAr + '\n';
-      msg += '💰 *المبلغ:* ' + price + ' ريال' + '\n';
-      msg += '📅 *الموعد:* ' + dt + '\n';
-      msg += '💳 *طريقة الدفع:* ' + methodLabel + '\n';
-      if (methodKey === 'bank') msg += '🏧 *IBAN المُحوَّل إليه:* ' + OWNER_IBAN + '\n';
-      if (methodKey === 'stc' || methodKey === 'mada') msg += '📱 *رقم التحويل:* +966549785075' + '\n';
+      msg += '★ *المبلغ:* ' + price + ' ريال' + '\n';
+      msg += '■ *الموعد:* ' + dt + '\n';
+      msg += '★ *طريقة الدفع:* ' + methodLabel + '\n';
+      if (methodKey === 'bank') msg += '★ *IBAN:* ' + OWNER_IBAN + '\n';
+      if (methodKey === 'stc' || methodKey === 'mada') msg += '★ *رقم التحويل:* +966549785075' + '\n';
       msg += D + '\n';
-      msg += '📸 سيتم إرفاق صورة الإيصال — شكراً لكم! 🙏';
+      msg += '✅ سيتم إرفاق صورة الإيصال — شكراً لكم!';
       return msg;
     } else {
-      var mLabel = methodKey === 'bank' ? '🏦 Bank Transfer — Al Ahli' :
-                   methodKey === 'stc'  ? '📱 STC Pay' :
-                   methodKey === 'mada' ? '💳 Mada Card' : '💳 Card';
+      var mLabel = methodKey === 'bank' ? '★ Bank Transfer — Al Ahli' :
+                   methodKey === 'stc'  ? '★ STC Pay' :
+                   methodKey === 'mada' ? '★ Mada Card' : '★ Card';
       var msg = '';
-      msg += '💈 *Casastar Relaxation* ✂️' + '\n';
+      msg += '✂️ *Casastar Relaxation*' + '\n';
       msg += D + '\n';
-      msg += '💸 *Booking & Payment Notification* ✅' + '\n';
+      msg += '✨ *Booking & Payment Notification* ✅' + '\n';
       msg += D + '\n';
-      msg += '👤 *Name:* ' + name + '\n';
+      msg += '▶ *Name:* ' + name + '\n';
       msg += '✂️ *Service:* ' + svcEn + '\n';
-      msg += '💰 *Amount:* ' + price + ' SAR' + '\n';
-      msg += '📅 *Appointment:* ' + dt + '\n';
-      msg += '💳 *Payment Method:* ' + mLabel + '\n';
-      if (methodKey === 'bank') msg += '🏧 *IBAN Used:* ' + OWNER_IBAN + '\n';
-      if (methodKey === 'stc' || methodKey === 'mada') msg += '📱 *Transfer Number:* +966549785075' + '\n';
+      msg += '★ *Amount:* ' + price + ' SAR' + '\n';
+      msg += '■ *Appointment:* ' + dt + '\n';
+      msg += '★ *Payment Method:* ' + mLabel + '\n';
+      if (methodKey === 'bank') msg += '★ *IBAN:* ' + OWNER_IBAN + '\n';
+      if (methodKey === 'stc' || methodKey === 'mada') msg += '★ *Transfer Number:* +966549785075' + '\n';
       msg += D + '\n';
-      msg += '📸 Receipt screenshot will be attached — thank you! 🙏';
+      msg += '✅ Receipt screenshot will be attached — thank you!';
       return msg;
     }
   }
