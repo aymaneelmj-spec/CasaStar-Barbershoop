@@ -1436,66 +1436,38 @@ footer {
 }
 
 .whatsapp-float {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  width: 56px;
-  height: 56px;
-  background: #25D366;
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 900;
+  position: fixed; bottom: 2rem; left: 2rem;
+  width: 56px; height: 56px;
+  background: #25D366; border: none; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 900; cursor: pointer; padding: 0;
   box-shadow: 0 4px 20px rgba(37,211,102,0.4);
   transition: transform var(--transition), box-shadow var(--transition);
-  cursor: pointer;
-  padding: 0;
 }
-.whatsapp-float:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 30px rgba(37,211,102,0.6);
-}
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(37,211,102,0.6); }
 .whatsapp-float svg { width: 28px; height: 28px; fill: white; }
 
 .tiktok-float {
   position: fixed;
   bottom: calc(2rem + 56px + 14px);
   left: 2rem;
-  width: 56px;
-  height: 56px;
-  background: #010101;
-  border: 2px solid rgba(105,201,208,0.7);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 900;
+  width: 56px; height: 56px;
+  background: #010101; border: 2px solid rgba(105,201,208,0.7); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 900; cursor: pointer; padding: 0;
   box-shadow: 0 4px 20px rgba(105,201,208,0.3);
-  transition: transform var(--transition), box-shadow var(--transition),
-              border-color var(--transition);
-  cursor: pointer;
-  padding: 0;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
-.tiktok-float:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 30px rgba(105,201,208,0.55);
-  border-color: rgba(105,201,208,1);
-}
+.tiktok-float:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(105,201,208,0.55); border-color: rgba(105,201,208,1); }
 .tiktok-float svg { width: 26px; height: 26px; fill: #69C9D0; }
 
 @media (max-width: 600px) {
-  .whatsapp-float { bottom:1.2rem; left:1.2rem; width:50px; height:50px; }
-  .whatsapp-float svg { width:24px; height:24px; }
-  .tiktok-float {
-    bottom: calc(1.2rem + 50px + 12px);
-    left: 1.2rem;
-    width: 50px;
-    height: 50px;
-  }
-  .tiktok-float svg { width:22px; height:22px; }
+  .whatsapp-float { bottom: 1.2rem; left: 1.2rem; width: 50px; height: 50px; }
+  .whatsapp-float svg { width: 24px; height: 24px; }
+  .tiktok-float { bottom: calc(1.2rem + 50px + 12px); left: 1.2rem; width: 50px; height: 50px; }
+  .tiktok-float svg { width: 22px; height: 22px; }
 }
+
 
 
 .whatsapp-float:hover {
