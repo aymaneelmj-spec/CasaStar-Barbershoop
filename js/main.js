@@ -278,27 +278,66 @@
     openChat();
   }
 
-  // WhatsApp float → whatsapp flow
+  // ── Platform picker modal — shown before any booking starts ──
+  var platformPickerOverlay = document.getElementById('platformPickerOverlay');
+  var platformPickerClose = document.getElementById('platformPickerClose');
+  var pendingPlatformCallback = null;
+
+  function openPlatformPicker(onChosen) {
+    pendingPlatformCallback = typeof onChosen === 'function' ? onChosen : null;
+    if (platformPickerOverlay) {
+      platformPickerOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closePlatformPicker() {
+    if (platformPickerOverlay) {
+      platformPickerOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    pendingPlatformCallback = null;
+  }
+
+  if (platformPickerOverlay) {
+    document.querySelectorAll('.platform-opt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var platform = btn.getAttribute('data-platform') || 'whatsapp';
+        var callback = pendingPlatformCallback;
+        platformPickerOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+        pendingPlatformCallback = null;
+        if (callback) callback(platform);
+      });
+    });
+
+    if (platformPickerClose) platformPickerClose.addEventListener('click', closePlatformPicker);
+    platformPickerOverlay.addEventListener('click', function (e) {
+      if (e.target === platformPickerOverlay) closePlatformPicker();
+    });
+  }
+
+  // WhatsApp float → ask platform first (so user can still switch to TikTok)
   var waFloat = document.getElementById('whatsappFloat');
   if (waFloat) waFloat.addEventListener('click', function(e) {
     e.preventDefault();
-    openBookingFlow('whatsapp');
+    openPlatformPicker(function (platform) { openBookingFlow(platform); });
   });
 
-  // TikTok float → tiktok flow
+  // TikTok float → ask platform first (so user can still switch to WhatsApp)
   var ttFloat = document.getElementById('tiktokFloat');
   if (ttFloat) ttFloat.addEventListener('click', function(e) {
     e.preventDefault();
-    openBookingFlow('tiktok');
+    openPlatformPicker(function (platform) { openBookingFlow(platform); });
   });
 
-  // Nav / hero "Book Now" → whatsapp by default (still shows category pick)
+  // Nav / hero "Book Now" → ask platform first, then open chat with categories
   document.getElementById('openChatBtn').addEventListener('click', function () {
-    openBookingFlow('whatsapp');
+    openPlatformPicker(function (platform) { openBookingFlow(platform); });
   });
   document.getElementById('bookNowNav').addEventListener('click', function (e) {
     e.preventDefault();
-    openBookingFlow('whatsapp');
+    openPlatformPicker(function (platform) { openBookingFlow(platform); });
   });
   var bookNowMobile = document.getElementById('bookNowMobile');
   if (bookNowMobile) {
@@ -307,16 +346,16 @@
       hamburger.classList.remove('open');
       mobileMenu.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
-      openBookingFlow('whatsapp');
+      openPlatformPicker(function (platform) { openBookingFlow(platform); });
     });
   }
 
-  // Contact / footer buttons → whatsapp
+  // Contact / footer buttons → ask platform first
   ['whatsappContactLink','footerContactLink','footerWaBtn'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.addEventListener('click', function(e) {
       e.preventDefault();
-      openBookingFlow('whatsapp');
+      openPlatformPicker(function (platform) { openBookingFlow(platform); });
     });
   });
 
@@ -327,7 +366,10 @@
   chatClose.addEventListener('click', closeChat);
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeChat();
+    if (e.key === 'Escape') {
+      closeChat();
+      closePlatformPicker();
+    }
   });
 
   // ── Chat helpers ───────────────────────────────────────────
@@ -588,10 +630,10 @@
   }
 
   // ── startServiceBooking (from service cards / price rows) ──
-  function startServiceBooking(serviceAr, serviceEn, price) {
+  function startServiceBooking(serviceAr, serviceEn, price, platform) {
     // Multi-tier service (e.g. "30-50-120") — ask the client to pick a tier first
     if (isMultiTierPrice(price)) {
-      startTierSelection(serviceAr, serviceEn, price);
+      startTierSelection(serviceAr, serviceEn, price, platform);
       return;
     }
 
@@ -599,8 +641,7 @@
     selectedServiceName = currentLang === 'ar' ? serviceAr : serviceEn;
     selectedServicePrice = price;
 
-    // Default to whatsapp unless already set
-    if (!selectedPlatform) selectedPlatform = 'whatsapp';
+    selectedPlatform = platform || selectedPlatform || 'whatsapp';
     setChatHeaderPlatform(selectedPlatform);
 
     chatBody.innerHTML = '';
@@ -618,11 +659,10 @@
   }
 
   // ── startTierSelection — let client choose عادي/متوسط/VIP, then proceed normally ──
-  function startTierSelection(serviceAr, serviceEn, price) {
+  function startTierSelection(serviceAr, serviceEn, price, platform) {
     var tiers = getTiersForService(serviceAr, serviceEn, price);
 
-    // Default to whatsapp unless already set
-    if (!selectedPlatform) selectedPlatform = 'whatsapp';
+    selectedPlatform = platform || selectedPlatform || 'whatsapp';
     setChatHeaderPlatform(selectedPlatform);
 
     chatBody.innerHTML = '';
@@ -666,7 +706,9 @@
       var serviceAr = card.getAttribute('data-service') || '';
       var serviceEn = card.getAttribute('data-en-name') || serviceAr;
       var price = card.getAttribute('data-price') || '';
-      startServiceBooking(serviceAr, serviceEn, price);
+      openPlatformPicker(function (platform) {
+        startServiceBooking(serviceAr, serviceEn, price, platform);
+      });
     });
   });
 
@@ -675,7 +717,9 @@
       var serviceAr = row.getAttribute('data-service') || '';
       var serviceEn = row.getAttribute('data-en-name') || serviceAr;
       var price = row.getAttribute('data-price') || '';
-      startServiceBooking(serviceAr, serviceEn, price);
+      openPlatformPicker(function (platform) {
+        startServiceBooking(serviceAr, serviceEn, price, platform);
+      });
     });
   });
 
