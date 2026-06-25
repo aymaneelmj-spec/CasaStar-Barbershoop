@@ -563,8 +563,38 @@
     send.addEventListener('click', submitDateTime);
   }
 
+  // ── Multi-tier services (e.g. Skin Cleansing: عادي / متوسط / VIP) ──
+  // A price like "30-50-120" means 3 tiers, in ascending order.
+  var TIER_LABELS = [
+    { ar: '\u0639\u0627\u062F\u064A', en: 'Basic' },
+    { ar: '\u0645\u062A\u0648\u0633\u0637', en: 'Medium' },
+    { ar: 'VIP', en: 'VIP' }
+  ];
+
+  function isMultiTierPrice(price) {
+    return typeof price === 'string' && price.indexOf('-') !== -1 && /^\d+(-\d+)+$/.test(price);
+  }
+
+  function getTiersForService(serviceAr, serviceEn, price) {
+    var amounts = price.split('-');
+    return amounts.map(function (amt, i) {
+      var tierLabel = TIER_LABELS[i] || { ar: '\u0641\u0626\u0629 ' + (i + 1), en: 'Tier ' + (i + 1) };
+      return {
+        ar: serviceAr + ' (' + tierLabel.ar + ')',
+        en: serviceEn + ' (' + tierLabel.en + ')',
+        price: amt
+      };
+    });
+  }
+
   // ── startServiceBooking (from service cards / price rows) ──
   function startServiceBooking(serviceAr, serviceEn, price) {
+    // Multi-tier service (e.g. "30-50-120") — ask the client to pick a tier first
+    if (isMultiTierPrice(price)) {
+      startTierSelection(serviceAr, serviceEn, price);
+      return;
+    }
+
     selectedService = { ar: serviceAr, en: serviceEn, price: price };
     selectedServiceName = currentLang === 'ar' ? serviceAr : serviceEn;
     selectedServicePrice = price;
@@ -585,6 +615,49 @@
     }, 150);
 
     openChat();
+  }
+
+  // ── startTierSelection — let client choose عادي/متوسط/VIP, then proceed normally ──
+  function startTierSelection(serviceAr, serviceEn, price) {
+    var tiers = getTiersForService(serviceAr, serviceEn, price);
+
+    // Default to whatsapp unless already set
+    if (!selectedPlatform) selectedPlatform = 'whatsapp';
+    setChatHeaderPlatform(selectedPlatform);
+
+    chatBody.innerHTML = '';
+    openChat();
+
+    setTimeout(async function () {
+      addBotMsg(
+        '\uD83D\uDC88 ' + serviceAr + '\n\u0627\u062E\u062A\u0631 \u0627\u0644\u0641\u0626\u0629 \u0627\u0644\u0645\u0646\u0627\u0633\u0628\u0629 \u0644\u0643:',
+        '\uD83D\uDC88 ' + serviceEn + '\nChoose the tier that suits you:'
+      );
+      await delay(300);
+
+      addOptions(tiers.map(function (tier) {
+        return {
+          label: (currentLang === 'ar' ? tier.ar : tier.en) + ' \u2014 ' + tier.price + (currentLang === 'ar' ? ' \u0631\u064A\u0627\u0644' : ' SAR'),
+          action: async function (lbl) {
+            selectedService = { ar: tier.ar, en: tier.en, price: tier.price };
+            selectedServiceName = currentLang === 'ar' ? tier.ar : tier.en;
+            selectedServicePrice = tier.price;
+
+            addUserMsg(lbl);
+            var t = addTyping();
+            await delay(700);
+            t.remove();
+
+            addBotMsg(
+              '\u0631\u0627\u0626\u0639! \u0645\u0627 \u0647\u0648 \u0627\u0633\u0645\u0643 \u0627\u0644\u0643\u0631\u064A\u0645\u061F',
+              'Great! What is your name?'
+            );
+            await delay(300);
+            addNameInput();
+          }
+        };
+      }));
+    }, 150);
   }
 
   document.querySelectorAll('.btn-book-service').forEach(function (btn) {

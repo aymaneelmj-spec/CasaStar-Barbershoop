@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لا يوجد اتصال | بربر روات الرسام</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #100C07;
+      --bg-2:       #170F09;
+      --card:       #1D1008;
+      --border:     #4A2810;
+      --border-l:   #6B3D1C;
+      --gold:       #C47628;
+      --gold-l:     #E09840;
+      --gold-d:     #8C4E14;
+      --text:       #EEE0C0;
+      --text-2:     #C8AE84;
+      --muted:      #8C6840;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cairo', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── wood grain ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        repeating-linear-gradient(91deg, transparent 0, transparent 4px, rgba(150,90,30,0.012) 4px, rgba(150,90,30,0.012) 8px),
+        repeating-linear-gradient(180deg, transparent 0, transparent 90px, rgba(0,0,0,0.025) 90px, rgba(0,0,0,0.025) 92px);
+      pointer-events: none;
+    }
+
+    /* ── floating scissors background ── */
+    .scissor-bg {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .s-icon {
+      position: absolute;
+      opacity: 0;
+      animation: float-scissor 8s ease-in-out infinite;
+    }
+    .s-icon:nth-child(1)  { top: 8%;  left: 5%;  animation-delay: 0s;    animation-duration: 9s;  }
+    .s-icon:nth-child(2)  { top: 15%; right: 8%; animation-delay: 1.4s;  animation-duration: 11s; }
+    .s-icon:nth-child(3)  { top: 60%; left: 3%;  animation-delay: 2.8s;  animation-duration: 8s;  }
+    .s-icon:nth-child(4)  { top: 75%; right: 5%; animation-delay: 0.7s;  animation-duration: 10s; }
+    .s-icon:nth-child(5)  { top: 40%; left: 90%; animation-delay: 3.5s;  animation-duration: 9.5s;}
+    .s-icon:nth-child(6)  { top: 88%; left: 50%; animation-delay: 1.9s;  animation-duration: 12s; }
+
+    @keyframes float-scissor {
+      0%   { opacity: 0;    transform: translateY(20px) rotate(0deg) scale(0.7); }
+      15%  { opacity: 0.14; }
+      50%  { opacity: 0.09; transform: translateY(-15px) rotate(18deg) scale(1); }
+      85%  { opacity: 0.14; }
+      100% { opacity: 0;    transform: translateY(20px) rotate(0deg) scale(0.7); }
+    }
+
+    /* ── radial glow ── */
+    .glow {
+      position: fixed;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,118,40,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: glow-pulse 4s ease-in-out infinite;
+    }
+    @keyframes glow-pulse {
+      0%, 100% { transform: translate(-50%,-50%) scale(1);   opacity: 0.7; }
+      50%       { transform: translate(-50%,-50%) scale(1.2); opacity: 1;   }
+    }
+
+    /* ── main card ── */
+    .card {
+      position: relative;
+      z-index: 10;
+      background: var(--card);
+      border: 1px solid var(--border-l);
+      border-radius: 18px;
+      padding: 2.8rem 2.4rem 2.4rem;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(196,118,40,0.06);
+      animation: card-in 0.7s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes card-in {
+      from { opacity: 0; transform: translateY(32px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0)   scale(1); }
+    }
+
+    /* ── icon ring ── */
+    .icon-wrap {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      background: var(--bg-2);
+      border: 2px solid var(--border-l);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.6rem;
+      position: relative;
+      animation: ring-breathe 3s ease-in-out infinite;
+    }
+    @keyframes ring-breathe {
+      0%, 100% { box-shadow: 0 0 0 0   rgba(196,118,40,0.3), 0 0 0 0   rgba(196,118,40,0.15); }
+      50%       { box-shadow: 0 0 0 10px rgba(196,118,40,0.1), 0 0 0 20px rgba(196,118,40,0.05); }
+    }
+
+    .icon-wrap svg { animation: icon-shake 4s ease-in-out infinite; }
+    @keyframes icon-shake {
+      0%, 80%, 100% { transform: rotate(0deg); }
+      85%           { transform: rotate(-6deg); }
+      90%           { transform: rotate(6deg); }
+      95%           { transform: rotate(-4deg); }
+    }
+
+    /* ── disconnected lines animation ── */
+    .signal-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      justify-content: center;
+      margin-bottom: 0.4rem;
+    }
+    .bar {
+      width: 5px;
+      border-radius: 2px;
+      background: var(--border-l);
+      animation: bar-blink 2.4s ease-in-out infinite;
+    }
+    .bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+    .bar:nth-child(2) { height: 16px; animation-delay: 0.2s; }
+    .bar:nth-child(3) { height: 22px; animation-delay: 0.4s; }
+    .bar:nth-child(4) { height: 28px; animation-delay: 0.6s; background: var(--bg-2); }
+    @keyframes bar-blink {
+      0%, 40%, 100% { opacity: 0.3; }
+      20%            { opacity: 1; background: var(--gold); }
+    }
+
+    /* ── text ── */
+    .label-top {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', 'Cairo', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      color: var(--text-2);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── divider ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-l), transparent);
+      margin: 1.6rem 0;
+    }
+
+    /* ── phone contact box ── */
+    .contact-box {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-align: right;
+      animation: card-in 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .phone-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-d));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      animation: ring-breathe 3s ease-in-out infinite;
+      animation-delay: 1.5s;
+    }
+    .contact-box-text .lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.15rem;
+    }
+    .contact-box-text .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold-l);
+      letter-spacing: 0.04em;
+      direction: ltr;
+      display: block;
+    }
+    .contact-box-text .num:hover { color: var(--gold); }
+
+    /* ── buttons ── */
+    .btn-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .btn-retry {
+      background: linear-gradient(135deg, var(--gold), var(--gold-d));
+      color: #060402;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1.2rem;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-retry:hover {
+      background: linear-gradient(135deg, var(--gold-l), var(--gold));
+      box-shadow: 0 6px 24px rgba(196,118,40,0.4);
+      transform: translateY(-2px);
+    }
+    .btn-retry svg { animation: spin 1.4s linear infinite paused; }
+    .btn-retry.loading svg { animation-play-state: running; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn-call {
+      background: transparent;
+      border: 1px solid var(--border-l);
+      color: var(--text-2);
+      border-radius: 10px;
+      padding: 0.75rem;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.22s;
+    }
+    .btn-call:hover { border-color: var(--gold); color: var(--gold-l); background: rgba(196,118,40,0.06); }
+
+    /* ── footer brand ── */
+    .brand {
+      position: relative;
+      z-index: 10;
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .brand-name {
+      font-family: 'Playfair Display', 'Cairo', serif;
+      font-size: 0.88rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .brand-name span { color: var(--gold); }
+
+    /* ── dots loader ── */
+    .dot-loader {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-top: 1.2rem;
+    }
+    .dot-loader span {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--border-l);
+      animation: dot-bounce 1.4s ease-in-out infinite;
+    }
+    .dot-loader span:nth-child(1) { animation-delay: 0s; }
+    .dot-loader span:nth-child(2) { animation-delay: 0.2s; }
+    .dot-loader span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dot-bounce {
+      0%, 80%, 100% { transform: scale(0.6); background: var(--border-l); }
+      40%            { transform: scale(1);   background: var(--gold); }
+    }
+
+    /* mobile */
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.4rem 1.8rem; }
+      h1 { font-size: 1.3rem; }
+    }
+
+    /* english toggle */
+    .lang-toggle {
+      position: fixed;
+      top: 1.2rem;
+      left: 1.2rem;
+      background: transparent;
+      border: 1px solid var(--border-l);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 0.35rem 0.7rem;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      z-index: 100;
+    }
+    .lang-toggle:hover { border-color: var(--gold); color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+
+<div class="glow"></div>
+
+<!-- Floating scissors bg -->
+<div class="scissor-bg">
+  <svg class="s-icon" viewBox="0 0 120 120" width="64" height="64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g><circle cx="35" cy="35" r="12" fill="none" stroke="#C9A23F" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#C9A23F" stroke-width="5" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#C9A23F" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#C9A23F" stroke-width="5" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#C9A23F"/></g>
+  </svg>
+  <svg class="s-icon" viewBox="0 0 120 120" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g><circle cx="35" cy="35" r="12" fill="none" stroke="#E09840" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#E09840" stroke-width="5" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#E09840" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#E09840" stroke-width="5" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#E09840"/></g>
+  </svg>
+  <svg class="s-icon" viewBox="0 0 120 120" width="36" height="36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g><circle cx="35" cy="35" r="12" fill="none" stroke="#8C6840" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#8C6840" stroke-width="5" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#8C6840" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#8C6840" stroke-width="5" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#8C6840"/></g>
+  </svg>
+  <svg class="s-icon" viewBox="0 0 120 120" width="52" height="52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g><circle cx="35" cy="35" r="12" fill="none" stroke="#C9A23F" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#C9A23F" stroke-width="5" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#C9A23F" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#C9A23F" stroke-width="5" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#C9A23F"/></g>
+  </svg>
+  <svg class="s-icon" viewBox="0 0 120 120" width="40" height="40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g><circle cx="35" cy="35" r="12" fill="none" stroke="#F0D889" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#F0D889" stroke-width="5" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#F0D889" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#F0D889" stroke-width="5" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#F0D889"/></g>
+  </svg>
+  <svg class="s-icon" viewBox="0 0 120 120" width="56" height="56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g><circle cx="35" cy="35" r="12" fill="none" stroke="#8C4E14" stroke-width="4"/><line x1="43" y1="43" x2="90" y2="90" stroke="#8C4E14" stroke-width="5" stroke-linecap="round"/><circle cx="85" cy="35" r="12" fill="none" stroke="#8C4E14" stroke-width="4"/><line x1="77" y1="43" x2="30" y2="90" stroke="#8C4E14" stroke-width="5" stroke-linecap="round"/><circle cx="60" cy="60" r="5" fill="#8C4E14"/></g>
+  </svg>
+</div>
+
+<div class="card">
+  <!-- signal bars -->
+  <div class="signal-bars">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <!-- icon -->
+  <div class="icon-wrap">
+    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#C47628" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+      <line x1="1" y1="1" x2="23" y2="23"/>
+      <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+      <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+      <path d="M10.71 5.05A16 16 0 0 1 22.56 9"/>
+      <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+      <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+      <line x1="12" y1="20" x2="12.01" y2="20"/>
+    </svg>
+  </div>
+
+  <p class="label-top" id="lblTop">انقطع الاتصال</p>
+  <h1 id="headline">لا يوجد اتصال بالإنترنت</h1>
+  <p class="subtitle" id="subtitle">تعذّر تحميل الصفحة. تحقق من اتصالك بالإنترنت وأعد المحاولة.</p>
+
+  <!-- Contact box -->
+  <div class="contact-box">
+    <div class="phone-icon">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </svg>
+    </div>
+    <div class="contact-box-text">
+      <p class="lbl" id="callLbl">تواصل مع الصالون مباشرة</p>
+      <a class="num" href="tel:+966534979996">+966 53 497 9996</a>
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn-retry" id="retryBtn" onclick="retryPage()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="1 4 1 10 7 10"/>
+        <path d="M3.51 15a9 9 0 1 0 .49-3.46"/>
+      </svg>
+      <span id="retryText">إعادة المحاولة</span>
+    </button>
+    <a class="btn-call" href="tel:+966534979996">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </svg>
+      <span id="callText">اتصل بنا الآن</span>
+    </a>
+  </div>
+
+  <div class="dot-loader">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+
+<div class="brand">
+  <p class="brand-name"><span>بربر روات</span> الرسام</p>
+</div>
+
+<script>
+  var lang = 'ar';
+  var strings = {
+    ar: {
+      toggle: 'EN',
+      top: 'انقطع الاتصال',
+      headline: 'لا يوجد اتصال بالإنترنت',
+      subtitle: 'تعذّر تحميل الصفحة. تحقق من اتصالك بالإنترنت وأعد المحاولة.',
+      callLbl: 'تواصل مع الصالون مباشرة',
+      retry: 'إعادة المحاولة',
+      call: 'اتصل بنا الآن'
+    },
+    en: {
+      toggle: 'ع',
+      top: 'No Connection',
+      headline: 'You\'re Offline',
+      subtitle: 'This page couldn\'t load. Please check your internet connection and try again.',
+      callLbl: 'Contact the salon directly',
+      retry: 'Try Again',
+      call: 'Call Us Now'
+    }
+  };
+
+  function applyLang() {
+    var s = strings[lang];
+    document.getElementById('langToggle').textContent = s.toggle;
+    document.getElementById('lblTop').textContent     = s.top;
+    document.getElementById('headline').textContent   = s.headline;
+    document.getElementById('subtitle').textContent   = s.subtitle;
+    document.getElementById('callLbl').textContent    = s.callLbl;
+    document.getElementById('retryText').textContent  = s.retry;
+    document.getElementById('callText').textContent   = s.call;
+    document.documentElement.lang = lang;
+    document.documentElement.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+  }
+
+  function toggleLang() {
+    lang = lang === 'ar' ? 'en' : 'ar';
+    applyLang();
+  }
+
+  function retryPage() {
+    var btn = document.getElementById('retryBtn');
+    btn.classList.add('loading');
+    setTimeout(function() {
+      window.location.reload();
+    }, 600);
+  }
+
+  // Auto-retry when connection is restored
+  window.addEventListener('online', function() {
+    setTimeout(function() { window.location.reload(); }, 1000);
+  });
+</script>
+</body>
+</html>
