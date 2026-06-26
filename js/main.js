@@ -1052,6 +1052,46 @@
   var payStepSuccess = document.getElementById('payStepSuccess');
   var selectedPayMethod = null;
 
+  function setPaymentModalPlatformText() {
+    var isTikTok = selectedPlatform === 'tiktok';
+
+    var bankBtn = document.getElementById('bankWhatsappBtn');
+    if (bankBtn) {
+      var bankAr = isTikTok ? '\u2705 \u0623\u0631\u0633\u0644 \u0625\u064A\u0635\u0627\u0644 \u0627\u0644\u062F\u0641\u0639 \u0639\u0628\u0631 \u062A\u064A\u0643 \u062A\u0648\u0643' : '\u2705 \u0623\u0631\u0633\u0644 \u0625\u064A\u0635\u0627\u0644 \u0627\u0644\u062F\u0641\u0639 \u0639\u0628\u0631 \u0648\u0627\u062A\u0633\u0627\u0628';
+      var bankEn = isTikTok ? '\u2705 Send Payment Receipt via TikTok' : '\u2705 Send Payment Receipt via WhatsApp';
+      bankBtn.setAttribute('data-ar', bankAr);
+      bankBtn.setAttribute('data-en', bankEn);
+      bankBtn.textContent = currentLang === 'ar' ? bankAr : bankEn;
+    }
+
+    var digitalBtn = document.getElementById('digitalWhatsappBtn');
+    if (digitalBtn) {
+      var digAr = isTikTok ? '\u2705 \u0623\u0631\u0633\u0644 \u0625\u064A\u0635\u0627\u0644 \u0627\u0644\u062F\u0641\u0639 \u0639\u0628\u0631 \u062A\u064A\u0643 \u062A\u0648\u0643' : '\u2705 \u0623\u0631\u0633\u0644 \u0625\u064A\u0635\u0627\u0644 \u0627\u0644\u062F\u0641\u0639 \u0639\u0628\u0631 \u0648\u0627\u062A\u0633\u0627\u0628';
+      var digEn = isTikTok ? '\u2705 Send Payment Receipt via TikTok' : '\u2705 Send Payment Receipt via WhatsApp';
+      digitalBtn.setAttribute('data-ar', digAr);
+      digitalBtn.setAttribute('data-en', digEn);
+      digitalBtn.textContent = currentLang === 'ar' ? digAr : digEn;
+    }
+
+    var bankStep = document.getElementById('bankReceiptStep');
+    if (bankStep) {
+      var bankStepAr = isTikTok ? '\u0623\u0631\u0633\u0644 \u0635\u0648\u0631\u0629 \u0627\u0644\u0625\u064A\u0635\u0627\u0644 \u0639\u0628\u0631 \u062A\u064A\u0643 \u062A\u0648\u0643 \u0644\u062A\u0623\u0643\u064A\u062F \u0627\u0644\u062D\u062C\u0632' : '\u0623\u0631\u0633\u0644 \u0635\u0648\u0631\u0629 \u0627\u0644\u0625\u064A\u0635\u0627\u0644 \u0639\u0628\u0631 \u0648\u0627\u062A\u0633\u0627\u0628 \u0644\u062A\u0623\u0643\u064A\u062F \u0627\u0644\u062D\u062C\u0632';
+      var bankStepEn = isTikTok ? 'Send the receipt screenshot via TikTok to confirm' : 'Send the receipt screenshot via WhatsApp to confirm';
+      bankStep.setAttribute('data-ar', bankStepAr);
+      bankStep.setAttribute('data-en', bankStepEn);
+      bankStep.textContent = currentLang === 'ar' ? bankStepAr : bankStepEn;
+    }
+
+    var digitalStep = document.getElementById('digitalReceiptStep');
+    if (digitalStep) {
+      var digStepAr = isTikTok ? '\u0623\u0631\u0633\u0644 \u0635\u0648\u0631\u0629 \u0627\u0644\u0625\u064A\u0635\u0627\u0644 \u0639\u0628\u0631 \u062A\u064A\u0643 \u062A\u0648\u0643 \u0644\u062A\u0623\u0643\u064A\u062F \u0645\u0648\u0639\u062F\u0643' : '\u0623\u0631\u0633\u0644 \u0635\u0648\u0631\u0629 \u0627\u0644\u0625\u064A\u0635\u0627\u0644 \u0639\u0628\u0631 \u0648\u0627\u062A\u0633\u0627\u0628 \u0644\u062A\u0623\u0643\u064A\u062F \u0645\u0648\u0639\u062F\u0643';
+      var digStepEn = isTikTok ? 'Send the receipt screenshot via TikTok to confirm' : 'Send the receipt screenshot via WhatsApp to confirm';
+      digitalStep.setAttribute('data-ar', digStepAr);
+      digitalStep.setAttribute('data-en', digStepEn);
+      digitalStep.textContent = currentLang === 'ar' ? digStepAr : digStepEn;
+    }
+  }
+
   function openPaymentModal() {
     if (!paymentOverlay) return;
     [payStep1, payStepBank, payStepDigital, payStepSuccess].forEach(function(s){ if(s) s.style.display='none'; });
@@ -1073,6 +1113,7 @@
     setAmountText('bankAmount', price);
     if(document.getElementById('ibanValue')) document.getElementById('ibanValue').textContent = OWNER_IBAN;
     setAmountText('digitalAmount', price);
+    setPaymentModalPlatformText();
 
     paymentOverlay.classList.add('open');
     document.body.style.overflow = 'hidden';
